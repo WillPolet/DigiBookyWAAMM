@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.book.api;
 
+import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.book.service.BookService;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
@@ -8,12 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
-    private BookService bookService;
+    private final BookService bookService;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -36,4 +38,17 @@ public class BookController {
 //        return ResponseEntity.ok("The book has been successfully deleted");
     }
 
+    @GetMapping
+    public List<BookDto> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String isbn) {
+        if (title == null && isbn == null) {
+            return bookService.getBooks();
+        }
+        if (title != null && isbn != null) {
+            return bookService.searchBookByTitleAndIsbn(title, isbn);
+        }
+        if (title != null) {
+            return bookService.searchBookByTitle(title);
+        }
+        return bookService.searchBookByIsbn(isbn);
+    }
 }

@@ -72,4 +72,8 @@ public class BookRepository {
     private Pattern getPattern(String regex) {
         return Pattern.compile("^" + regex);
     }
+
+    public Collection<Book> getBooks() {
+        return books.values();
+    }
 }

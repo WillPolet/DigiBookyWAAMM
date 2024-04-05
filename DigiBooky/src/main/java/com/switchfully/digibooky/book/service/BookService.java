@@ -50,4 +50,8 @@ public class BookService {
     public List<BookDto> searchBookByTitleAndIsbn(String title, String isbn) {
         return bookMapper.toDTO(bookRepository.searchBooksByTitleAndIsbnWithWildcard(title, isbn));
     }
+
+    public List<BookDto> getBooks() {
+        return bookMapper.toDTO(bookRepository.getBooks());
+    }
 }
