@@ -21,7 +21,7 @@ class AuthorizationServiceTest {
 
     private static final Address ADDRESS = new Address("streetName", "streetNumber", "zipCode", "city");
     private static final User USER_MEMBER = new Member("email", "lastname", "firstname", "password", ADDRESS, "INSS");
-    private static final User USER_ADMIN = new Admin("email", "lastname", "firstname", "pass");
+    private static final User USER_ADMIN = new Admin("email", "lastname", "firstname", "password");
     private static final User USER_LIBRARIAN = new Librarian("email", "lastname", "firstname", "password");
     @Mock
     UserRepository userRepository;
@@ -40,7 +40,7 @@ class AuthorizationServiceTest {
 
     @Test
     void givenAuthorizationHeaderWithExistingMemberWithBadPassword_whenAccessFeature_thenThrowException() {
-        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(USER_ADMIN);
+        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(USER_LIBRARIAN);
         String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
         Assertions.assertThatThrownBy(
                         () -> authorizationService.hasFeature(RoleFeature.DELETE_BOOK, authorization))
