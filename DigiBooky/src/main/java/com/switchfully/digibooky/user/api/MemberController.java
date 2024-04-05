@@ -4,6 +4,7 @@ import com.switchfully.digibooky.user.domain.User;
 import com.switchfully.digibooky.user.service.UserService;
 import com.switchfully.digibooky.user.service.dto.CreateMemberDTO;
 import com.switchfully.digibooky.user.service.dto.MemberDTO;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,8 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public MemberDTO createMember(@RequestBody CreateMemberDTO createMemberDTO){
+    public MemberDTO createMember(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestBody CreateMemberDTO createMemberDTO){
+
         return userService.addMember(createMemberDTO);
     }
 }
