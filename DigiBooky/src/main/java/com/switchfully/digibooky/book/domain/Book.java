@@ -10,27 +10,48 @@ public class Book {
     private String title;
     private String summary;
     private Boolean isAccessible;
-    private Boolean isRanted;
+    private Boolean isRented;
     private Author author;
 
-    public Book(String isbn, String title, String summary, Boolean isAccessible, Boolean isRanted, Author author) {
+    public Book(String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
         this.uuid = UUID.randomUUID();
         this.isbn = isbn;
         this.title = title;
         this.summary = summary;
         this.isAccessible = isAccessible;
-        this.isRanted = isRanted;
+        this.isRented = isRented;
         this.author = author;
     }
 
-    public Book(String isbn, String title, Boolean isAccessible, Boolean isRanted, Author author) {
-        this.uuid = UUID.randomUUID();
-        this.isbn = isbn;
-        this.title = title;
-        this.summary = "";
-        this.isAccessible = isAccessible;
-        this.isRanted = isRanted;
-        this.author = author;
+    public UUID getUuid() {
+        return uuid;
     }
 
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public Boolean getAccessible() {
+        return isAccessible;
+    }
+
+    public Boolean getRented() {
+        return isRented;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAccessible(Boolean accessible) {
+        isAccessible = accessible;
+    }
 }
