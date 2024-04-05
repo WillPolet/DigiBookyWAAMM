@@ -1,6 +1,5 @@
 package com.switchfully.digibooky.user.api;
 
-import com.switchfully.digibooky.user.domain.User;
 import com.switchfully.digibooky.user.service.UserService;
 import com.switchfully.digibooky.user.service.dto.CreateMemberDTO;
 import com.switchfully.digibooky.user.service.dto.MemberDTO;
@@ -18,8 +17,11 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public MemberDTO createMember(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestBody CreateMemberDTO createMemberDTO){
-
+    public MemberDTO createMember(@RequestBody CreateMemberDTO createMemberDTO){
+        // Example for authorization
+        // @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, -> in the parameter
+        //
+        // then : authorizationService.hasFeature(RoleFeature.ADD_MEMBER, authorization);
         return userService.addMember(createMemberDTO);
     }
 }
