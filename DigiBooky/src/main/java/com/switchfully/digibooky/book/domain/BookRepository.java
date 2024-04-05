@@ -35,6 +35,5 @@ public class BookRepository {
     }
 
     public void updateBook(Book book) {
-
     }
 }

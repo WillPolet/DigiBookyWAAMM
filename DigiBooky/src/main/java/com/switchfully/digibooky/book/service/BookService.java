@@ -31,6 +31,7 @@ public class BookService {
         String isbn = bookRepository.getIsbnById(id);
         Book book = new Book(isbn, bookDto.getTitle(), bookDto.getSummary(), bookDto.getAccessible(), bookDto.getRented(), bookDto.getAuthor());
         bookRepository.updateBook(book);
+        return null;
     }
 
     public void deleteBook(UUID id) {
