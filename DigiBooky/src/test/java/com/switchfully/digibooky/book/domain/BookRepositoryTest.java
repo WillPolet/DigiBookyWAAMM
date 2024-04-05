@@ -3,7 +3,6 @@ package com.switchfully.digibooky.book.domain;
 import com.switchfully.digibooky.author.domain.Author;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
