@@ -12,7 +12,6 @@ class BookRepositoryTest {
     private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", true, false, AUTHOR1);
     private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", true, false, AUTHOR1);
     private static final Book BOOK3 = new Book("isbn3", "3title", "summary", true, false, AUTHOR1);
-    private static final List<Book> BOOKS = List.of(BOOK1, BOOK2, BOOK3);
 
     private final BookRepository bookRepository = new BookRepository();
 
