@@ -75,6 +75,12 @@ class BookRepositoryTest {
         Assertions.assertThat(bookRepository.searchBooksByTitleAndIsbnWithWildcard("*title", "isbn*")).contains(BOOK3);
     }
 
+    @Test
+    void givenExistingBook_whenGetBooks_thenReturnAllBooks() {
+        addBooksToRepository();
+        Assertions.assertThat(bookRepository.getBooks()).contains(BOOK1, BOOK2, BOOK3);
+    }
+
     private void addBooksToRepository() {
         bookRepository.addBook(BOOK1);
         bookRepository.addBook(BOOK2);

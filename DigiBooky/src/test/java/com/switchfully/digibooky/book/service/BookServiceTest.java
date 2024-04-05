@@ -47,4 +47,11 @@ class BookServiceTest {
         Mockito.when(bookMapper.toDTO(List.of(BOOK))).thenReturn(List.of(BOOK_DTO));
         Assertions.assertThat(bookService.searchBookByTitleAndIsbn(BOOK.getTitle(), BOOK.getIsbn())).isEqualTo(List.of(BOOK_DTO));
     }
+
+    @Test
+    void givenExistingBooks_whengetBooks_thenReturnAllTheBooks() {
+        Mockito.when(bookRepository.getBooks()).thenReturn(List.of(BOOK));
+        Mockito.when(bookMapper.toDTO(List.of(BOOK))).thenReturn(List.of(BOOK_DTO));
+        Assertions.assertThat(bookService.getBooks()).isEqualTo(List.of(BOOK_DTO));
+    }
 }
