@@ -2,8 +2,8 @@ package com.switchfully.digibooky.user.domain.userAttribute;
 
 public class EmailPassword {
 
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 
     public EmailPassword(String email, String password) {
         this.email = email;
