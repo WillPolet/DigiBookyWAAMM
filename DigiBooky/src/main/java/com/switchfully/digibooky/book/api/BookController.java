@@ -1,12 +1,10 @@
 package com.switchfully.digibooky.book.api;
 
-import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.book.service.BookService;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
