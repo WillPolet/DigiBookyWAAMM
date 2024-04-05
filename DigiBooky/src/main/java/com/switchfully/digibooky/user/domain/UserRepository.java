@@ -1,14 +1,16 @@
 package com.switchfully.digibooky.user.domain;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
+@Repository
 public class UserRepository {
     private Map<UUID, User> users;
 
-    public UserRepository(Map<UUID, User> users) {
+    public UserRepository() {
         this.users = new ConcurrentHashMap<>();
     }
 
@@ -19,6 +21,10 @@ public class UserRepository {
 
     public Collection<User> getAllUsers(){
         return users.values().stream().toList();
+    }
+
+    public User getUserByEmail(String email){
+        return null;
     }
 
 }
