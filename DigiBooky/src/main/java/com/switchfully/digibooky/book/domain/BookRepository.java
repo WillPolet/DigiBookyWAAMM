@@ -40,39 +40,6 @@ public class BookRepository {
     public void updateBook(Book book) {
     }
 
-    public List<Book> searchBooksByTitleWithWildcard(String title) {
-        return getBooksByTitleWithWildcard(books.values(), title);
-    }
-
-    public List<Book> searchBooksByIsbnWithWildcard(String isbn) {
-        return getBooksByIsbnWithWildcard(books.values(), isbn);
-    }
-
-    public List<Book> searchBooksByTitleAndIsbnWithWildcard(String title, String isbn) {
-        return getBooksByTitleWithWildcard(
-                getBooksByIsbnWithWildcard(books.values(), isbn),
-                title
-        );
-    }
-
-    private List<Book> getBooksByTitleWithWildcard(Collection<Book> books, String title) {
-        Pattern pattern = getPattern(title);
-        return books.stream()
-                .filter(b -> pattern.matcher(b.getTitle()).find())
-                .toList();
-    }
-
-    private List<Book> getBooksByIsbnWithWildcard(Collection<Book> books, String isbn) {
-        Pattern pattern = getPattern(isbn);
-        return books.stream()
-                .filter(b -> pattern.matcher(b.getIsbn()).find())
-                .toList();
-    }
-
-    private Pattern getPattern(String regex) {
-        return Pattern.compile("^" + regex);
-    }
-
     public Collection<Book> getBooks() {
         return books.values();
     }

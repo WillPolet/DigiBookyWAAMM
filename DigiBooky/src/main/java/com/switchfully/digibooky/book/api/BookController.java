@@ -42,11 +42,11 @@ public class BookController {
             return bookService.getBooks();
         }
         if (title != null && isbn != null) {
-            return bookService.searchBookByTitleAndIsbn(title, isbn);
+            return bookService.searchBooksByTitleAndIsbn(title, isbn);
         }
         if (title != null) {
-            return bookService.searchBookByTitle(title);
+            return bookService.searchBooksByTitle(title);
         }
-        return bookService.searchBookByIsbn(isbn);
+        return bookService.searchBooksByIsbn(isbn);
     }
 }
