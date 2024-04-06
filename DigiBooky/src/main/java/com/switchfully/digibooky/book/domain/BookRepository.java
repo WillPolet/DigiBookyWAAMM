@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public class BookRepository {
-    private final HashMap<UUID, Book> books;
+    private final HashMap<String, Book> books;
 
     public BookRepository() {
         books = new HashMap<>();
@@ -19,12 +19,13 @@ public class BookRepository {
         return books.get(uuid).getIsbn();
     }
 
-    public void addBook(Book newBook) {
+    public Book addBook(Book newBook) {
         if (!isIsbnAlreadyUsed(newBook.getIsbn())) {
-            books.put(newBook.getUuid(), newBook);
+            books.put(newBook.getId(), newBook);
         } else {
             throw new UniqueFieldAlreadyExistException("There is already a book with this isbn");
         }
+        return newBook;
     }
 
     public boolean isIsbnAlreadyUsed(String bookIsbn) {

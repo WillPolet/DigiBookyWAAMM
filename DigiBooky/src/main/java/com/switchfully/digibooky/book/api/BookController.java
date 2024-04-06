@@ -7,6 +7,7 @@ import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,16 +38,7 @@ public class BookController {
     }
 
     @GetMapping
-    public List<BookDto> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String isbn) {
-        if (title == null && isbn == null) {
-            return bookService.getBooks();
-        }
-        if (title != null && isbn != null) {
-            return bookService.searchBooksByTitleAndIsbn(title, isbn);
-        }
-        if (title != null) {
-            return bookService.searchBooksByTitle(title);
-        }
-        return bookService.searchBooksByIsbn(isbn);
+    public List<BookDto> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String isbn, @RequestParam(required = false) String authorFirstname, @RequestParam(required = false) String authorLastname) {
+        return bookService.searchBooks(title, isbn, authorFirstname, authorLastname);
     }
 }

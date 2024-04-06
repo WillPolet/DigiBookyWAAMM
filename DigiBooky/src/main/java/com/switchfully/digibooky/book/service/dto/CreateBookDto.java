@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.book.service.dto;
 
 import com.switchfully.digibooky.author.domain.Author;
+import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
 
 import java.util.UUID;
 
@@ -11,13 +12,13 @@ public class CreateBookDto {
         private String summary;
         private Boolean isAccessible;
         private Boolean isRented;
-        private Author author;
+        private CreateAuthorDto author;
 
     public CreateBookDto() {
         // JACKSON
     }
 
-    public CreateBookDto(String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
+    public CreateBookDto(String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, CreateAuthorDto author) {
             this.uuid = UUID.randomUUID();
             this.isbn = isbn;
             this.title = title;
@@ -27,14 +28,8 @@ public class CreateBookDto {
             this.author = author;
     }
 
-    public CreateBookDto(String isbn, String title, Boolean isAccessible, Boolean isRented, Author author) {
-        this.uuid = UUID.randomUUID();
-        this.isbn = isbn;
-        this.title = title;
-        this.summary = "";
-        this.isAccessible = isAccessible;
-        this.isRented = isRented;
-        this.author = author;
+    public CreateBookDto(String isbn, String title, Boolean isAccessible, Boolean isRented, CreateAuthorDto author) {
+        this(isbn, title, "", isAccessible, isRented, author);
     }
 
     public UUID getUuid() {
@@ -61,7 +56,7 @@ public class CreateBookDto {
         return isRented;
     }
 
-    public Author getAuthor() {
+    public CreateAuthorDto getAuthor() {
         return author;
     }
 }

@@ -5,7 +5,7 @@ import com.switchfully.digibooky.author.domain.Author;
 import java.util.UUID;
 
 public class Book {
-    private UUID uuid;
+    private String id;
     private String isbn;
     private String title;
     private String summary;
@@ -14,7 +14,7 @@ public class Book {
     private Author author;
 
     public Book(String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
-        this.uuid = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
         this.isbn = isbn;
         this.title = title;
         this.summary = summary;
@@ -23,8 +23,8 @@ public class Book {
         this.author = author;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
     public String getIsbn() {

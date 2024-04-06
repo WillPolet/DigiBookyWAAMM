@@ -1,32 +1,53 @@
 package com.switchfully.digibooky.book.service;
 
+import com.switchfully.digibooky.author.domain.Author;
+import com.switchfully.digibooky.author.domain.AuthorRepository;
+import com.switchfully.digibooky.author.service.AuthorMapper;
+import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
 import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.book.domain.BookRepository;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
+import com.switchfully.digibooky.book.service.utility.SearchUtility;
+import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Service
 public class BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final AuthorMapper authorMapper;
+    private final AuthorRepository authorRepository;
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, AuthorRepository authorRepository, AuthorMapper authorMapper) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
+        this.authorRepository = authorRepository;
+        this.authorMapper = authorMapper;
     }
 
     public BookDto createBook(CreateBookDto bookDto) {
-        Book book = new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getSummary(), bookDto.getIsAccessible(), bookDto.getIsRented(), bookDto.getAuthor());
-        bookRepository.addBook(book);
-        return bookMapper.toDTO(book);
+        Author author = getExistingAuthorOrCreateIt(bookDto.getAuthor());
+        Book book = bookMapper.fromDto(bookDto, author);
+        return bookMapper.toDTO(bookRepository.addBook(book));
+    }
+
+    private Author getExistingAuthorOrCreateIt(CreateAuthorDto createAuthorDto) {
+        Author author;
+        try {
+            author = authorRepository.addAuthor(authorMapper.fromDto(createAuthorDto));
+        }
+        catch (UniqueFieldAlreadyExistException ex) {
+            author = authorRepository.getAuthorByFirstnameAndLastname(createAuthorDto.getFirstname(), createAuthorDto.getLastname());
+        }
+        return author;
     }
 
     public BookDto updateBook(UpdateBookDto bookDto, UUID id) {
@@ -41,40 +62,20 @@ public class BookService {
         bookRepository.setBookToInaccessible(id);
     }
 
-    public List<BookDto> searchBooksByTitle(String title) {
-        return bookMapper.toDTO(getBooksByTitleWithWildcard(bookRepository.getBooks(), title));
-    }
-
-    public List<BookDto> searchBooksByIsbn(String isbn) {
-        return bookMapper.toDTO(getBooksByIsbnWithWildcard(bookRepository.getBooks(), isbn));
-    }
-
-    public List<BookDto> searchBooksByTitleAndIsbn(String title, String isbn) {
-        return bookMapper.toDTO(getBooksByTitleWithWildcard(
-                getBooksByIsbnWithWildcard(bookRepository.getBooks(), isbn),
-                title
-        ));
-    }
-
-    private List<Book> getBooksByTitleWithWildcard(Collection<Book> books, String title) {
-        Pattern pattern = getPattern(title);
-        return books.stream()
-                .filter(b -> pattern.matcher(b.getTitle()).find())
-                .toList();
-    }
-
-    private List<Book> getBooksByIsbnWithWildcard(Collection<Book> books, String isbn) {
-        Pattern pattern = getPattern(isbn);
-        return books.stream()
-                .filter(b -> pattern.matcher(b.getIsbn()).find())
-                .toList();
-    }
-
-    private Pattern getPattern(String regex) {
-        return Pattern.compile("^" + regex.replace("*", ".*") + "$");
-    }
-
-    public List<BookDto> getBooks() {
-        return bookMapper.toDTO(bookRepository.getBooks());
+    public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {
+        Collection<Book> books = bookRepository.getBooks();
+        if (title != null) {
+            books = SearchUtility.getBooksByTitleWithWildcard(books, title);
+        }
+        if (isbn != null) {
+            books = SearchUtility.getBooksByIsbnWithWildcard(books, isbn);
+        }
+        if (authorFirstname != null) {
+            books = SearchUtility.getBooksByFirstnameWithWildcard(books, authorFirstname);
+        }
+        if (authorLastname != null) {
+            books = SearchUtility.getBooksByLastnameWithWildcard(books, authorLastname);
+        }
+        return bookMapper.toDTO(books);
     }
 }
