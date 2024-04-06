@@ -2,6 +2,7 @@ package com.switchfully.digibooky.book.service.dto;
 
 import com.switchfully.digibooky.author.domain.Author;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class BookDto {
@@ -39,15 +40,28 @@ public class BookDto {
         return summary;
     }
 
-    public Boolean getAccessible() {
+    public Boolean getIsAccessible() {
         return isAccessible;
     }
 
-    public Boolean getRented() {
+    public Boolean getIsRented() {
         return isRented;
     }
 
     public Author getAuthor() {
         return author;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(uuid, bookDto.uuid) && Objects.equals(isbn, bookDto.isbn) && Objects.equals(title, bookDto.title) && Objects.equals(summary, bookDto.summary) && Objects.equals(isAccessible, bookDto.isAccessible) && Objects.equals(isRented, bookDto.isRented) && Objects.equals(author, bookDto.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, isbn, title, summary, isAccessible, isRented, author);
     }
 }

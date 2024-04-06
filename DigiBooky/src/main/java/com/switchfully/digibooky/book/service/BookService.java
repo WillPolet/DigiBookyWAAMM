@@ -24,7 +24,7 @@ public class BookService {
     }
 
     public BookDto createBook(CreateBookDto bookDto) {
-        Book book = new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getSummary(), bookDto.getAccessible(), bookDto.getRented(), bookDto.getAuthor());
+        Book book = new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getSummary(), bookDto.getIsAccessible(), bookDto.getIsRented(), bookDto.getAuthor());
         bookRepository.addBook(book);
         return bookMapper.toDTO(book);
     }

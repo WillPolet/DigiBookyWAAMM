@@ -53,11 +53,11 @@ public class CreateBookDto {
         return summary;
     }
 
-    public Boolean getAccessible() {
+    public Boolean getIsAccessible() {
         return isAccessible;
     }
 
-    public Boolean getRented() {
+    public Boolean getIsRented() {
         return isRented;
     }
 
