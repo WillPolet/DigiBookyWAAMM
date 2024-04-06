@@ -5,9 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Repository
 public class BookRepository {

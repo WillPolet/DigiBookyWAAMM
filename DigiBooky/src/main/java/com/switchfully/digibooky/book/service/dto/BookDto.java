@@ -6,13 +6,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class BookDto {
-    private UUID uuid;
-    private String isbn;
-    private String title;
-    private String summary;
-    private Boolean isAccessible;
-    private Boolean isRented;
-    private Author author;
+    private final UUID uuid;
+    private final String isbn;
+    private final String title;
+    private final String summary;
+    private final Boolean isAccessible;
+    private final Boolean isRented;
+    private final Author author;
 
     public BookDto(UUID uuid, String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
         this.uuid = uuid;
