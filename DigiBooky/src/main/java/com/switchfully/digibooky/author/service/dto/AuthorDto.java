@@ -1,7 +1,6 @@
 package com.switchfully.digibooky.author.service.dto;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class AuthorDto {
     private final String id;

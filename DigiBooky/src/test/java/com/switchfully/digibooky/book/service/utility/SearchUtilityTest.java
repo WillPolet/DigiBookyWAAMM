@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class SearchUtilityTest {
 
     private static final Author AUTHOR1 = new Author("firstname1", "last1name1");

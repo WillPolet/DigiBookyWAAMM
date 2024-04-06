@@ -1,10 +1,8 @@
 package com.switchfully.digibooky.author.domain;
 
-import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 

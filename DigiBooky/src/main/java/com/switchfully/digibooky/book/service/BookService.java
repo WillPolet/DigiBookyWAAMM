@@ -50,7 +50,7 @@ public class BookService {
         return author;
     }
 
-    public BookDto updateBook(UpdateBookDto bookDto, UUID id) {
+    public BookDto updateBook(UpdateBookDto bookDto, String id) {
         // get isbn based on ID
         String isbn = bookRepository.getIsbnById(id);
         Book book = new Book(isbn, bookDto.getTitle(), bookDto.getSummary(), bookDto.getAccessible(), bookDto.getRented(), bookDto.getAuthor());
@@ -58,7 +58,7 @@ public class BookService {
         return null;
     }
 
-    public void deleteBook(UUID id) {
+    public void deleteBook(String id) {
         bookRepository.setBookToInaccessible(id);
     }
 

@@ -1,6 +1,5 @@
 package com.switchfully.digibooky.book.service.dto;
 
-import com.switchfully.digibooky.author.domain.Author;
 import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
 
 import java.util.UUID;

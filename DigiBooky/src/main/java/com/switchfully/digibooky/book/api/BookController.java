@@ -7,7 +7,6 @@ import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,12 +26,12 @@ public class BookController {
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json", path = "/{id}")
-    public BookDto updateBook(@RequestBody UpdateBookDto bookDto, @PathVariable UUID id){
+    public BookDto updateBook(@RequestBody UpdateBookDto bookDto, @PathVariable String id){
         return bookService.updateBook(bookDto, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteBook(@PathVariable UUID id){
+    public void deleteBook(@PathVariable String id){
         bookService.deleteBook(id);
 //        return ResponseEntity.ok("The book has been successfully deleted");
     }

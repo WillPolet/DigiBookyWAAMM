@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class AuthorMapperTest {
     private static final Author AUTHOR1 = new Author("firstname1", "lastname1");
     private static final Author AUTHOR2 = new Author("firstname2", "lastname2");

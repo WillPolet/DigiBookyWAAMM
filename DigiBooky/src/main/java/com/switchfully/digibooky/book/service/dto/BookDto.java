@@ -3,7 +3,6 @@ package com.switchfully.digibooky.book.service.dto;
 import com.switchfully.digibooky.author.domain.Author;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class BookDto {
     private final String id;

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.UUID;
 
 @Repository
 public class BookRepository {
@@ -15,8 +14,8 @@ public class BookRepository {
         books = new HashMap<>();
     }
 
-    public String getIsbnById(UUID uuid){
-        return books.get(uuid).getIsbn();
+    public String getIsbnById(String id){
+        return books.get(id).getIsbn();
     }
 
     public Book addBook(Book newBook) {
@@ -32,7 +31,7 @@ public class BookRepository {
         return books.values().stream().anyMatch(book -> book.getIsbn().equals(bookIsbn));
     }
 
-    public void setBookToInaccessible(UUID id) {
+    public void setBookToInaccessible(String id) {
         books.get(id).setAccessible(false);
     }
 
