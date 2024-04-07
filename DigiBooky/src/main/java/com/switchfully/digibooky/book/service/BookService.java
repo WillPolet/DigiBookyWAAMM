@@ -12,8 +12,8 @@ import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.book.service.utility.SearchBookUtility;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Collection;
 
 @Service
 public class BookService {
@@ -37,6 +37,17 @@ public class BookService {
         return bookMapper.toDTO(bookRepository.addBook(book));
     }
 
+    public BookDto updateBook(UpdateBookDto bookDto, String id) {
+        // Should check if book already exist or not ?
+        if (!bookRepository.doesIdExist(id)) {
+            throw new IllegalArgumentException("Book with id " + id + " does not exist");
+        }
+        // get isbn based on ID
+        String isbn = bookRepository.getIsbnById(id);
+        Book book = new Book(isbn, bookDto.getTitle(), bookDto.getSummary(), bookDto.getAccessible(), bookDto.getRented(), bookDto.getAuthor());
+        bookRepository.updateBook(book, id);
+        return bookMapper.toDTO(book);
+    }
     private Author getExistingAuthorOrCreateIt(CreateAuthorDto createAuthorDto) {
         return authorRepository
                 .getAuthorByFirstnameAndLastname(
@@ -45,20 +56,24 @@ public class BookService {
                 .orElseGet(() -> authorRepository.addAuthor(authorMapper.fromDto(createAuthorDto)));
     }
 
-    public BookDto updateBook(UpdateBookDto bookDto, String id) {
-        // get isbn based on ID
-        String isbn = bookRepository.getIsbnById(id);
-        Book book = new Book(isbn, bookDto.getTitle(), bookDto.getSummary(), bookDto.getAccessible(), bookDto.getRented(), bookDto.getAuthor());
-        bookRepository.updateBook(book);
-        return null;
-    }
+
 
     public void deleteBook(String id) {
         bookRepository.setBookToInaccessible(id);
     }
 
+    public BookDto getBookById(String id) {
+        if (!bookRepository.doesIdExist(id)) {
+            throw new IllegalArgumentException("Book with id " + id + " does not exist");
+        }
+        return bookMapper.toDTO(bookRepository.getBookById(id));
+    }
+
+    public List<BookDto> getAllBooks() {
+        return bookMapper.toDTO(bookRepository.getAllBooks());
+    }
     public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {
-        Collection<Book> books = bookRepository.getBooks();
+        Collection<Book> books = bookRepository.getAllBooks();
         if (title != null) {
             books = SearchBookUtility.getBooksByTitleWithWildcard(books, title);
         }

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/books")
 public class BookController {
@@ -16,6 +15,17 @@ public class BookController {
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+
+    @GetMapping(produces = "application/json", path = "/{id}")
+    public BookDto getBookById(@PathVariable String id){
+        return bookService.getBookById(id);
+    }
+
+    @GetMapping(produces = "application/json")
+    public List<BookDto> getAllBooks(){
+        return bookService.getAllBooks();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,6 +36,8 @@ public class BookController {
 
     @PutMapping(consumes = "application/json", produces = "application/json", path = "/{id}")
     public BookDto updateBook(@RequestBody UpdateBookDto bookDto, @PathVariable String id){
+        // Should put a condition if it's a librairian who try to access the route.
+
         return bookService.updateBook(bookDto, id);
     }
 

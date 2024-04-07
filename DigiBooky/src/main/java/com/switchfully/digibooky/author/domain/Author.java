@@ -1,5 +1,4 @@
 package com.switchfully.digibooky.author.domain;
-
 import java.util.Objects;
 import java.util.UUID;
 

@@ -16,7 +16,7 @@ class BookRepositoryTest {
     @Test
     void givenExistingBook_whenGetBooks_thenReturnAllBooks() {
         addBooksToRepository();
-        Assertions.assertThat(bookRepository.getBooks()).containsExactlyInAnyOrder(BOOK1, BOOK2, BOOK3);
+        Assertions.assertThat(bookRepository.getAllBooks()).containsExactlyInAnyOrder(BOOK1, BOOK2, BOOK3);
     }
 
     private void addBooksToRepository() {
