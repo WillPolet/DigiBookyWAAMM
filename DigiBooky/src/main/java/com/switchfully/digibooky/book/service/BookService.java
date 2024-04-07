@@ -10,7 +10,6 @@ import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.book.service.utility.SearchBookUtility;
-import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -67,10 +66,10 @@ public class BookService {
             books = SearchBookUtility.getBooksByIsbnWithWildcard(books, isbn);
         }
         if (authorFirstname != null) {
-            books = SearchBookUtility.getBooksByFirstnameWithWildcard(books, authorFirstname);
+            books = SearchBookUtility.getBooksByAuthorFirstnameWithWildcard(books, authorFirstname);
         }
         if (authorLastname != null) {
-            books = SearchBookUtility.getBooksByLastnameWithWildcard(books, authorLastname);
+            books = SearchBookUtility.getBooksByAuthorLastnameWithWildcard(books, authorLastname);
         }
         return bookMapper.toDTO(books);
     }
