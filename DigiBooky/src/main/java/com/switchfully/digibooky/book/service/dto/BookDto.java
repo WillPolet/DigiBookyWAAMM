@@ -2,19 +2,19 @@ package com.switchfully.digibooky.book.service.dto;
 
 import com.switchfully.digibooky.author.domain.Author;
 
-import java.util.UUID;
+import java.util.Objects;
 
 public class BookDto {
-    private UUID uuid;
-    private String isbn;
-    private String title;
-    private String summary;
-    private Boolean isAccessible;
-    private Boolean isRented;
-    private Author author;
+    private final String id;
+    private final String isbn;
+    private final String title;
+    private final String summary;
+    private final Boolean isAccessible;
+    private final Boolean isRented;
+    private final Author author;
 
-    public BookDto(UUID uuid, String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
-        this.uuid = uuid;
+    public BookDto(String id, String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
+        this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.summary = summary;
@@ -23,8 +23,8 @@ public class BookDto {
         this.author = author;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public String getId() {
+        return id;
     }
 
     public String getIsbn() {
@@ -39,15 +39,28 @@ public class BookDto {
         return summary;
     }
 
-    public Boolean getAccessible() {
+    public Boolean getIsAccessible() {
         return isAccessible;
     }
 
-    public Boolean getRented() {
+    public Boolean getIsRented() {
         return isRented;
     }
 
     public Author getAuthor() {
         return author;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(id, bookDto.id) && Objects.equals(isbn, bookDto.isbn) && Objects.equals(title, bookDto.title) && Objects.equals(summary, bookDto.summary) && Objects.equals(isAccessible, bookDto.isAccessible) && Objects.equals(isRented, bookDto.isRented) && Objects.equals(author, bookDto.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isbn, title, summary, isAccessible, isRented, author);
     }
 }
