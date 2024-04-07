@@ -29,11 +29,11 @@ class SearchBookUtilityTest {
 
     @Test
     void givenAuthorFirstname_whenSearchByAuthorFirstname_thenReturnAuthor() {
-        Assertions.assertThat(SearchBookUtility.getBooksByFirstnameWithWildcard(BOOKS, "firstname*")).containsExactlyInAnyOrder(BOOK1, BOOK2);
+        Assertions.assertThat(SearchBookUtility.getBooksByAuthorFirstnameWithWildcard(BOOKS, "firstname*")).containsExactlyInAnyOrder(BOOK1, BOOK2);
     }
 
     @Test
     void givenAuthorLastname_whenSearchByAuthorLastname_thenReturnAuthor() {
-        Assertions.assertThat(SearchBookUtility.getBooksByLastnameWithWildcard(BOOKS, "lastname*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByAuthorLastnameWithWildcard(BOOKS, "lastname*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
     }
 }

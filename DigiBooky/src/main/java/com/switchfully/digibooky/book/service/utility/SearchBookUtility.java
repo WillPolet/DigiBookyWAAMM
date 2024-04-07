@@ -23,15 +23,15 @@ public class SearchBookUtility {
                 .toList();
     }
 
-    public static List<Book> getBooksByFirstnameWithWildcard(Collection<Book> books, String firstname) {
-        Pattern pattern = PatternUtility.getPattern(firstname);
+    public static List<Book> getBooksByAuthorFirstnameWithWildcard(Collection<Book> books, String authorFirstname) {
+        Pattern pattern = PatternUtility.getPattern(authorFirstname);
         return books.stream()
                 .filter(b -> pattern.matcher(b.getAuthor().getFirstname()).find())
                 .toList();
     }
 
-    public static List<Book> getBooksByLastnameWithWildcard(Collection<Book> books, String lastname) {
-        Pattern pattern = PatternUtility.getPattern(lastname);
+    public static List<Book> getBooksByAuthorLastnameWithWildcard(Collection<Book> books, String authorLastname) {
+        Pattern pattern = PatternUtility.getPattern(authorLastname);
         return books.stream()
                 .filter(b -> pattern.matcher(b.getAuthor().getLastname()).find())
                 .toList();
