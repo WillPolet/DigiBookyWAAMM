@@ -72,7 +72,7 @@ public class BookService {
     public List<BookDto> getAllBooks() {
         return bookMapper.toDTO(bookRepository.getAllBooks());
     }
-    public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {
+    public List<BookDto> searchBooks(String title, String isbn) {
         Collection<Book> books = bookRepository.getAllBooks();
         if (title != null) {
             books = SearchBookUtility.getBooksByTitleWithWildcard(books, title);
@@ -80,11 +80,16 @@ public class BookService {
         if (isbn != null) {
             books = SearchBookUtility.getBooksByIsbnWithWildcard(books, isbn);
         }
-        if (authorFirstname != null) {
-            books = SearchBookUtility.getBooksByAuthorFirstnameWithWildcard(books, authorFirstname);
+        return bookMapper.toDTO(books);
+    }
+
+    public List<BookDto> searchBooksByAuthor(String firstname, String lastname) {
+        Collection<Book> books = bookRepository.getAllBooks();
+        if (firstname != null) {
+            books = SearchBookUtility.getBooksByAuthorFirstnameWithWildcard(books, firstname);
         }
-        if (authorLastname != null) {
-            books = SearchBookUtility.getBooksByAuthorLastnameWithWildcard(books, authorLastname);
+        if (lastname != null) {
+            books = SearchBookUtility.getBooksByAuthorLastnameWithWildcard(books, lastname);
         }
         return bookMapper.toDTO(books);
     }
