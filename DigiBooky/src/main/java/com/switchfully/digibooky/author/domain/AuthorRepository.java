@@ -30,8 +30,8 @@ public class AuthorRepository {
                         && a.getLastname().equals(author.getLastname()));
     }
 
-    public Author getAuthorById(String id) {
-        return authors.get(id);
+    public Optional<Author> getAuthorById(String id) {
+        return Optional.ofNullable(authors.get(id));
     }
 
     public Optional<Author> getAuthorByFirstnameAndLastname(String firstname, String lastname) {
