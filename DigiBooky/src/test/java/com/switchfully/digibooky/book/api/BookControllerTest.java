@@ -53,9 +53,9 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?title=title*");
+        List<BookDto> booksDto = searchBooks("?title=title");
 
-        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto);
+        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto, book3Dto);
     }
 
     @Test
@@ -64,7 +64,7 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?isbn=isbn*");
+        List<BookDto> booksDto = searchBooks("?isbn=isbn");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto, book3Dto);
     }
@@ -75,7 +75,7 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?title=*title*&isbn=isbn*");
+        List<BookDto> booksDto = searchBooks("?title=title&isbn=isbn");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto, book3Dto);
     }
@@ -86,7 +86,7 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("/author?firstname=firstname*");
+        List<BookDto> booksDto = searchBooks("/author?firstname=firstname");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto, book3Dto);
     }
@@ -97,9 +97,9 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("/author?lastname=lastname*");
+        List<BookDto> booksDto = searchBooks("/author?lastname=lastname");
 
-        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto);
+        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto, book3Dto);
     }
 
     @Test
