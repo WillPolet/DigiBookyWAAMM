@@ -9,7 +9,7 @@ import com.switchfully.digibooky.book.domain.BookRepository;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
-import com.switchfully.digibooky.book.service.utility.SearchUtility;
+import com.switchfully.digibooky.book.service.utility.SearchBookUtility;
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Service;
 
@@ -39,14 +39,11 @@ public class BookService {
     }
 
     private Author getExistingAuthorOrCreateIt(CreateAuthorDto createAuthorDto) {
-        Author author;
-        try {
-            author = authorRepository.addAuthor(authorMapper.fromDto(createAuthorDto));
-        }
-        catch (UniqueFieldAlreadyExistException ex) {
-            author = authorRepository.getAuthorByFirstnameAndLastname(createAuthorDto.getFirstname(), createAuthorDto.getLastname());
-        }
-        return author;
+        return authorRepository
+                .getAuthorByFirstnameAndLastname(
+                        createAuthorDto.getFirstname(),
+                        createAuthorDto.getLastname())
+                .orElseGet(() -> authorRepository.addAuthor(authorMapper.fromDto(createAuthorDto)));
     }
 
     public BookDto updateBook(UpdateBookDto bookDto, String id) {
@@ -64,16 +61,16 @@ public class BookService {
     public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {
         Collection<Book> books = bookRepository.getBooks();
         if (title != null) {
-            books = SearchUtility.getBooksByTitleWithWildcard(books, title);
+            books = SearchBookUtility.getBooksByTitleWithWildcard(books, title);
         }
         if (isbn != null) {
-            books = SearchUtility.getBooksByIsbnWithWildcard(books, isbn);
+            books = SearchBookUtility.getBooksByIsbnWithWildcard(books, isbn);
         }
         if (authorFirstname != null) {
-            books = SearchUtility.getBooksByFirstnameWithWildcard(books, authorFirstname);
+            books = SearchBookUtility.getBooksByFirstnameWithWildcard(books, authorFirstname);
         }
         if (authorLastname != null) {
-            books = SearchUtility.getBooksByLastnameWithWildcard(books, authorLastname);
+            books = SearchBookUtility.getBooksByLastnameWithWildcard(books, authorLastname);
         }
         return bookMapper.toDTO(books);
     }

@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class SearchUtility {
+public class SearchBookUtility {
 
     public static List<Book> getBooksByTitleWithWildcard(Collection<Book> books, String title) {
         Pattern pattern = PatternUtility.getPattern(title);

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-class SearchUtilityTest {
+class SearchBookUtilityTest {
 
     private static final Author AUTHOR1 = new Author("firstname1", "last1name1");
     private static final Author AUTHOR2 = new Author("firstname2", "lastname2");
@@ -19,21 +19,21 @@ class SearchUtilityTest {
 
     @Test
     void givenTitle_whenSearchByTitle_thenReturnAuthor() {
-        Assertions.assertThat(SearchUtility.getBooksByTitleWithWildcard(BOOKS, "title*")).containsExactlyInAnyOrder(BOOK1, BOOK2);
+        Assertions.assertThat(SearchBookUtility.getBooksByTitleWithWildcard(BOOKS, "title*")).containsExactlyInAnyOrder(BOOK1, BOOK2);
     }
 
     @Test
     void givenIsbn_whenSearchByIsbn_thenReturnAuthor() {
-        Assertions.assertThat(SearchUtility.getBooksByIsbnWithWildcard(BOOKS, "isbn*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByIsbnWithWildcard(BOOKS, "isbn*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
     }
 
     @Test
     void givenAuthorFirstname_whenSearchByAuthorFirstname_thenReturnAuthor() {
-        Assertions.assertThat(SearchUtility.getBooksByFirstnameWithWildcard(BOOKS, "firstname*")).containsExactlyInAnyOrder(BOOK1, BOOK2);
+        Assertions.assertThat(SearchBookUtility.getBooksByFirstnameWithWildcard(BOOKS, "firstname*")).containsExactlyInAnyOrder(BOOK1, BOOK2);
     }
 
     @Test
     void givenAuthorLastname_whenSearchByAuthorLastname_thenReturnAuthor() {
-        Assertions.assertThat(SearchUtility.getBooksByLastnameWithWildcard(BOOKS, "lastname*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByLastnameWithWildcard(BOOKS, "lastname*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
     }
 }

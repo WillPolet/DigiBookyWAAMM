@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class AuthorRepository {
@@ -33,11 +34,10 @@ public class AuthorRepository {
         return authors.get(id);
     }
 
-    public Author getAuthorByFirstnameAndLastname(String firstname, String lastname) {
+    public Optional<Author> getAuthorByFirstnameAndLastname(String firstname, String lastname) {
         return authors.values().stream()
                 .filter(a -> a.getFirstname().equals(firstname)
                         && a.getLastname().equals(lastname))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("MUST IMPLEMENT THIS"));
+                .findFirst();
     }
 }
