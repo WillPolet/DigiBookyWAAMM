@@ -30,4 +30,12 @@ public class Member extends User {
         this.address = address;
         this.inss = inss;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getInss() {
+        return inss;
+    }
 }
