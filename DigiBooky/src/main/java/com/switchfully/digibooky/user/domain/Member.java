@@ -9,6 +9,7 @@ import java.util.UUID;
 public class Member extends User {
     private Address address;
     private String inss;
+    //TODO issue with calling constructor ? Validation for non null fields not done
     public Member(String email, String lastName, String firstName, String password, Address address, String inss){
         super(UUID.randomUUID(),
                 email,

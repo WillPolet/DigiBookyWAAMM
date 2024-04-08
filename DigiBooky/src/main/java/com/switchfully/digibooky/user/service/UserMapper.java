@@ -2,14 +2,14 @@ package com.switchfully.digibooky.user.service;
 
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.User;
-import com.switchfully.digibooky.user.service.dto.CreateMemberDTO;
-import com.switchfully.digibooky.user.service.dto.MemberDTO;
+import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public Member toMember(CreateMemberDTO createMemberDTO) {
+    public Member toMember(CreateMemberDto createMemberDTO) {
         return new Member(
                 createMemberDTO.getEmail(),
                 createMemberDTO.getLastname(),
@@ -20,13 +20,13 @@ public class UserMapper {
         );
     }
 
-    public MemberDTO toMemberDto(User savedUser) {
+    public MemberDto toMemberDto(User savedUser) {
         if (!(savedUser instanceof Member)) {
             throw new IllegalArgumentException("Implement me");
         }
         Member memberToConvert = (Member) savedUser;
 
-        return new MemberDTO(
+        return new MemberDto(
                 memberToConvert.getId(),
                 memberToConvert.getEmail(),
                 memberToConvert.getLastname(),

@@ -1,9 +1,9 @@
 package com.switchfully.digibooky.user.api;
 
 import com.switchfully.digibooky.user.service.UserService;
-import com.switchfully.digibooky.user.service.dto.CreateMemberDTO;
-import com.switchfully.digibooky.user.service.dto.MemberDTO;
-import org.springframework.http.HttpHeaders;
+import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public MemberDTO createMember(@RequestBody CreateMemberDTO createMemberDTO){
+    public MemberDto createMember(@RequestBody @Valid CreateMemberDto createMemberDTO){
         // Example for authorization
         // @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, -> in the parameter
         //

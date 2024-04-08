@@ -1,12 +1,10 @@
-package com.switchfully.digibooky.user.service.dto;
+package com.switchfully.digibooky.user.service.dto.member;
 
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
-import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
 
-import java.util.List;
 import java.util.UUID;
 
-public class MemberDTO {
+public class MemberDto {
 
     private UUID id;
     private String email;
@@ -14,7 +12,7 @@ public class MemberDTO {
     private String firstname;
     private Address address;
 
-    public MemberDTO(UUID id, String email, String lastname, String firstname, Address address) {
+    public MemberDto(UUID id, String email, String lastname, String firstname, Address address) {
         this.id = id;
         this.email = email;
         this.lastname = lastname;

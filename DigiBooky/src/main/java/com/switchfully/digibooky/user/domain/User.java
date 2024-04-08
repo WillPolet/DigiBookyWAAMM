@@ -1,8 +1,6 @@
 package com.switchfully.digibooky.user.domain;
 
-import com.switchfully.digibooky.user.domain.userAttribute.Address;
 import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
-import com.switchfully.digibooky.user.domain.userAttribute.UserRole;
 
 import java.util.List;
 import java.util.UUID;
