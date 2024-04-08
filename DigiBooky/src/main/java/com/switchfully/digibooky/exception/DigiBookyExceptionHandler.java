@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@ControllerAdvice
 public class DigiBookyExceptionHandler extends ResponseEntityExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(DigiBookyExceptionHandler.class);
     @ExceptionHandler(DigiBookyException.class)
@@ -25,26 +25,4 @@ public class DigiBookyExceptionHandler extends ResponseEntityExceptionHandler {
         logger.error(ex.getMessage(), ex);
         return ResponseEntity.status(ex.getStatusCode()).body(new ExceptionDto(ex.getMessage()));
     }
-
-
-    protected ResponseEntity<ExceptionDto> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-//        return ResponseEntity.status(ex.getStatusCode()).body(new ExceptionDto(ex.getMessage()));
-//        Map<String, String> errors = new HashMap<>();
-        logger.error(ex.getBindingResult().getAllErrors().getLast().toString());
-//        System.out.println(ex.getBindingResult().
-//                getAllErrors().getLast());
-
-    }
-
-
-//                stream()
-//                        .filter(error -> error.get)
-//                forEach((error) -> {
-//            String fieldName = ((FieldError) error).getField();
-//            String errorMessage = error.getDefaultMessage();
-//            errors.put(fieldName, errorMessage);
-//        });
-//        return ResponseEntity.badRequest().body(errors);
-//    }
-
 }

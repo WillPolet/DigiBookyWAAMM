@@ -4,9 +4,9 @@ import com.switchfully.digibooky.user.domain.userAttribute.Address;
 import jakarta.validation.constraints.*;
 
 public class CreateMemberDto {
-    @Email(message = "email")
+    @Email(message = "Invalid email address. Please use email@domain.com.")
     private String email;
-    @NotNull(message = "lastname swaaaag")
+    @NotNull(message = "Last name cannot be null.")
     private String lastname;
     private String firstname;
     private String password;
