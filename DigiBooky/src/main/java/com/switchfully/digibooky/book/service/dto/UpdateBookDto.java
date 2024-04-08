@@ -1,43 +1,34 @@
 package com.switchfully.digibooky.book.service.dto;
 
 import com.switchfully.digibooky.author.domain.Author;
+import com.switchfully.digibooky.author.service.dto.UpdateAuthorDto;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.UUID;
 
 public class UpdateBookDto {
-    private UUID uuid;
+    @NotEmpty
     private String title;
+    @NotEmpty
     private String summary;
+    @NotEmpty
     private Boolean isAccessible;
+    @NotEmpty
     private Boolean isRented;
-    private Author author;
+    @NotEmpty
+    private UpdateAuthorDto author;
 
     public UpdateBookDto() {
         // JACKSON
     }
 
-    public UpdateBookDto(String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
-        this.uuid = UUID.randomUUID();
+    public UpdateBookDto(String title, String summary, Boolean isAccessible, Boolean isRented, UpdateAuthorDto author) {
         this.title = title;
         this.summary = summary;
         this.isAccessible = isAccessible;
         this.isRented = isRented;
         this.author = author;
     }
-
-    public UpdateBookDto(String title, Boolean isAccessible, Boolean isRented, Author author) {
-        this.uuid = UUID.randomUUID();
-        this.title = title;
-        this.summary = "";
-        this.isAccessible = isAccessible;
-        this.isRented = isRented;
-        this.author = author;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
 
     public String getTitle() {
         return title;
@@ -55,7 +46,7 @@ public class UpdateBookDto {
         return isRented;
     }
 
-    public Author getAuthor() {
+    public UpdateAuthorDto getAuthor() {
         return author;
     }
 }

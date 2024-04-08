@@ -4,12 +4,14 @@ import com.switchfully.digibooky.author.domain.Author;
 import com.switchfully.digibooky.author.domain.AuthorRepository;
 import com.switchfully.digibooky.author.service.AuthorMapper;
 import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
+import com.switchfully.digibooky.author.service.dto.UpdateAuthorDto;
 import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.book.domain.BookRepository;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.book.service.utility.SearchBookUtility;
+import com.switchfully.digibooky.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,14 +39,17 @@ public class BookService {
         return bookMapper.toDTO(bookRepository.addBook(book));
     }
 
-    public BookDto updateBook(UpdateBookDto bookDto, String id) {
+    public BookDto updateBook(UpdateBookDto updateBookDto, String id) {
         // Should check if book already exist or not ?
         if (!bookRepository.doesIdExist(id)) {
-            throw new IllegalArgumentException("Book with id " + id + " does not exist");
+            throw new NotFoundException("Book with id " + id + " does not exist.");
         }
+        // Call author service to check if author exist if not create it and add it to the authorRepository
+        Author authorFromUpdateBook = getExistingAuthorOrCreateIt(updateBookDto.getAuthor());
         // get isbn based on ID
         String isbn = bookRepository.getIsbnById(id);
-        Book book = new Book(isbn, bookDto.getTitle(), bookDto.getSummary(), bookDto.getAccessible(), bookDto.getRented(), bookDto.getAuthor());
+
+        Book book = new Book(id, isbn, updateBookDto.getTitle(), updateBookDto.getSummary(), updateBookDto.getAccessible(), updateBookDto.getRented(), authorFromUpdateBook);
         bookRepository.updateBook(book, id);
         return bookMapper.toDTO(book);
     }
@@ -54,6 +59,14 @@ public class BookService {
                         createAuthorDto.getFirstname(),
                         createAuthorDto.getLastname())
                 .orElseGet(() -> authorRepository.addAuthor(authorMapper.fromDto(createAuthorDto)));
+    }
+
+    private Author getExistingAuthorOrCreateIt(UpdateAuthorDto updateAuthorDto){
+        return authorRepository
+                .getAuthorByFirstnameAndLastname(
+                        updateAuthorDto.getFirstname(),
+                        updateAuthorDto.getLastname())
+                .orElseGet(() -> authorRepository.addAuthor(authorMapper.fromDto(updateAuthorDto)));
     }
 
 
@@ -69,9 +82,9 @@ public class BookService {
         return bookMapper.toDTO(bookRepository.getBookById(id));
     }
 
-    public List<BookDto> getAllBooks() {
-        return bookMapper.toDTO(bookRepository.getAllBooks());
-    }
+//    public List<BookDto> getAllBooks() {
+//        return bookMapper.toDTO(bookRepository.getAllBooks());
+//    }
     public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {
         Collection<Book> books = bookRepository.getAllBooks();
         if (title != null) {
