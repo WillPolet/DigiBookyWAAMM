@@ -108,7 +108,7 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("/author?firstname=firstname*&lastname=3lastname3");
+        List<BookDto> booksDto = searchBooks("?title=*title*&isbn=isbn*&authorFirstname=firstname*&authorLastname=3lastname3");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book3Dto);
     }

@@ -38,90 +38,90 @@ class BookServiceTest {
     void givenTitle_whenSearchBooksWithTitleNotExisting_thenReturn0Book() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of())).thenReturn(List.of());
-        Assertions.assertThat(bookService.searchBooks("bla", null)).containsExactlyInAnyOrder();
+        Assertions.assertThat(bookService.searchBooks("bla", null, null, null)).containsExactlyInAnyOrder();
     }
 
     @Test
     void givenTitle_whenSearchBookWithExactTitle_thenReturnTheGoodBook() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of(BOOK1))).thenReturn(List.of(BOOK1_DTO));
-        Assertions.assertThat(bookService.searchBooks("title1", null)).containsExactlyInAnyOrder(BOOK1_DTO);
+        Assertions.assertThat(bookService.searchBooks("title1", null, null, null)).containsExactlyInAnyOrder(BOOK1_DTO);
     }
 
     @Test
     void givenTitle_whenSearchBookWithWildcardTitle_thenReturnMatchedBook() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
-        Mockito.when(bookMapper.toDTO(List.of(BOOK1, BOOK2, BOOK3))).thenReturn(List.of(BOOK1_DTO, BOOK2_DTO, BOOK3_DTO));
-        Assertions.assertThat(bookService.searchBooks("title", null)).containsExactlyInAnyOrder(BOOK1_DTO, BOOK2_DTO, BOOK3_DTO);
+        Mockito.when(bookMapper.toDTO(List.of(BOOK1, BOOK2))).thenReturn(List.of(BOOK1_DTO, BOOK2_DTO));
+        Assertions.assertThat(bookService.searchBooks("title*", null, null, null)).containsExactlyInAnyOrder(BOOK1_DTO, BOOK2_DTO);
     }
 
     @Test
     void givenIsbn_whenSearchBookWithIsbnNotExisting_thenReturn0Book() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of())).thenReturn(List.of());
-        Assertions.assertThat(bookService.searchBooks(null, "bla")).containsExactlyInAnyOrder();
+        Assertions.assertThat(bookService.searchBooks(null, "bla", null, null)).containsExactlyInAnyOrder();
     }
 
     @Test
     void givenIsbn_whenSearchBookWithExactIsbn_thenReturnTheGoodBook() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of(BOOK1))).thenReturn(List.of(BOOK1_DTO));
-        Assertions.assertThat(bookService.searchBooks(null, "is1bn1")).containsExactlyInAnyOrder(BOOK1_DTO);
+        Assertions.assertThat(bookService.searchBooks(null, "is1bn1", null, null)).containsExactlyInAnyOrder(BOOK1_DTO);
     }
 
     @Test
     void givenIsbn_whenSearchBookWithWildcardIsbn_thenReturnMatchedBook() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of(BOOK2, BOOK3))).thenReturn(List.of(BOOK2_DTO, BOOK3_DTO));
-        Assertions.assertThat(bookService.searchBooks(null, "isbn")).containsExactlyInAnyOrder(BOOK2_DTO, BOOK3_DTO);
+        Assertions.assertThat(bookService.searchBooks(null, "isbn*", null, null)).containsExactlyInAnyOrder(BOOK2_DTO, BOOK3_DTO);
     }
 
     @Test
     void givenTitleAndIsbn_whenSearchBookNotExisting_thenReturn0Book() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of())).thenReturn(List.of());
-        Assertions.assertThat(bookService.searchBooks("bla", "bla")).containsExactlyInAnyOrder();
+        Assertions.assertThat(bookService.searchBooks("bla", "bla", null, null)).containsExactlyInAnyOrder();
     }
 
     @Test
     void givenTitleAndIsbn_whenSearchBookWithExistingTitleButNotExistingIsbn_thenReturn0Book() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of())).thenReturn(List.of());
-        Assertions.assertThat(bookService.searchBooks("title1", "bla")).containsExactlyInAnyOrder();
+        Assertions.assertThat(bookService.searchBooks("title1", "bla", null, null)).containsExactlyInAnyOrder();
     }
 
     @Test
     void givenTitleAndIsbn_whenSearchBookWithExistingIsbnButNotExistingTitle_thenReturn0Book() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of())).thenReturn(List.of());
-        Assertions.assertThat(bookService.searchBooks("bla", "isbn2")).containsExactlyInAnyOrder();
+        Assertions.assertThat(bookService.searchBooks("bla", "isbn2", null, null)).containsExactlyInAnyOrder();
     }
 
     @Test
     void givenTitleAndIsbn_whenSearchBookTitleAndIsbn_thenReturnBooks() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
-        Mockito.when(bookMapper.toDTO(List.of(BOOK2, BOOK3))).thenReturn(List.of(BOOK2_DTO, BOOK3_DTO));
-        Assertions.assertThat(bookService.searchBooks("title", "isbn")).containsExactlyInAnyOrder(BOOK2_DTO, BOOK3_DTO);
+        Mockito.when(bookMapper.toDTO(List.of(BOOK3))).thenReturn(List.of(BOOK3_DTO));
+        Assertions.assertThat(bookService.searchBooks("*title", "isbn*", null, null)).containsExactlyInAnyOrder(BOOK3_DTO);
     }
 
     @Test
-    void givenFirstname_whenSearchBookAuthorFirstname_thenReturnBooks() {
+    void givenFirstname_whenSearchBookFirstname_thenReturnBooks() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of(BOOK3))).thenReturn(List.of(BOOK3_DTO));
-        Assertions.assertThat(bookService.searchBooksByAuthor("firstname3", null)).containsExactlyInAnyOrder(BOOK3_DTO);
+        Assertions.assertThat(bookService.searchBooks(null, null, "firstname3", null)).containsExactlyInAnyOrder(BOOK3_DTO);
     }
 
     @Test
-    void givenLastname_whenSearchBookAuthorLastname_thenReturnBooks() {
+    void givenLastname_whenSearchBookLastname_thenReturnBooks() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
         Mockito.when(bookMapper.toDTO(List.of(BOOK3))).thenReturn(List.of(BOOK3_DTO));
-        Assertions.assertThat(bookService.searchBooksByAuthor(null, "lastname3")).containsExactlyInAnyOrder(BOOK3_DTO);
+        Assertions.assertThat(bookService.searchBooks(null, null, null, "lastname3")).containsExactlyInAnyOrder(BOOK3_DTO);
     }
 
     @Test
-    void givenFirstnameAndLastnameParameters_whenSearchBookAuthorFirstnameAndLastname_thenReturnBooks() {
+    void givenAllParameters_whenSearchBook_thenReturnBooks() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);
-        Mockito.when(bookMapper.toDTO(List.of(BOOK1, BOOK2, BOOK3))).thenReturn(List.of(BOOK1_DTO, BOOK2_DTO, BOOK3_DTO));
-        Assertions.assertThat(bookService.searchBooksByAuthor("firstname", "lastname")).containsExactlyInAnyOrder(BOOK1_DTO, BOOK2_DTO, BOOK3_DTO);
+        Mockito.when(bookMapper.toDTO(List.of(BOOK2))).thenReturn(List.of(BOOK2_DTO));
+        Assertions.assertThat(bookService.searchBooks("title*", "isbn*", "firstname*", "lastname*")).containsExactlyInAnyOrder(BOOK2_DTO);
     }
 }

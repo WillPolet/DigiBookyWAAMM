@@ -48,12 +48,7 @@ public class BookController {
     }
 
     @GetMapping
-    public List<BookDto> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String isbn) {
-        return bookService.searchBooks(title, isbn);
-    }
-
-    @GetMapping("/author")
-    public List<BookDto> getBooksByAuthor(@RequestParam(required = false) String firstname, @RequestParam(required = false) String lastname) {
-        return bookService.searchBooksByAuthor(firstname, lastname);
+    public List<BookDto> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String isbn, @RequestParam(required = false) String authorFirstname, @RequestParam(required = false) String authorLastname) {
+        return bookService.searchBooks(title, isbn, authorFirstname, authorLastname);
     }
 }
