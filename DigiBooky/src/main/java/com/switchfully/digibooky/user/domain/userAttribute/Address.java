@@ -1,9 +1,12 @@
 package com.switchfully.digibooky.user.domain.userAttribute;
 
+import jakarta.validation.constraints.NotNull;
+
 public class Address {
     private String streetName;
     private String streetNumber;
     private String zipCode;
+    @NotNull(message = "City cannot be null.")
     private String city;
 
     public Address(){}

@@ -4,6 +4,7 @@ import com.switchfully.digibooky.user.domain.userAttribute.Address;
 import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Member extends User {
@@ -38,5 +39,17 @@ public class Member extends User {
 
     public String getInss() {
         return inss;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member member)) return false;
+        return Objects.equals(getAddress(), member.getAddress()) && Objects.equals(getInss(), member.getInss());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAddress(), getInss());
     }
 }

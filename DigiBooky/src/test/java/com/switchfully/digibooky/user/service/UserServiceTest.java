@@ -103,7 +103,7 @@ class UserServiceTest {
 
         @Test
         @DisplayName("Trying to create an already existing member(unique INSS) : throw Exc")
-        void creatingUser_whenMemberAlreadyCreated_thenPermissionDeniedAndNoMemberCreated() {
+        void creatingUser_whenMemberAlreadyCreatedCheckOnINSS_thenPermissionDeniedAndNoMemberCreated() {
             //GIVEN
             Mockito.when(userRepositoryMock.getMemberByInss(CREATE_MEMBER_DTO.getInss())).thenReturn(Optional.of(MEMBER));
 
@@ -112,7 +112,6 @@ class UserServiceTest {
                     .isInstanceOf(UniqueFieldAlreadyExistException.class)
                     .hasMessageContaining(expectedMessage);
         }
-
 
         @Nested
         @DisplayName("ADMIN CREATION")
@@ -163,6 +162,22 @@ class UserServiceTest {
         }
 
 
+        @Test
+        @DisplayName("Trying to create an already existing member(unique EMAIL) : throw Exc")
+        void creatingUser_whenMemberAlreadyCreatedCheckOnEmail_thenPermissionDeniedAndNoMemberCreated() {
+            //GIVEN
+            Mockito.when(userRepositoryMock.getMemberByEmail(CREATE_MEMBER_DTO.getEmail())).thenReturn(Optional.of(MEMBER));
+
+            String expectedMessage = "A user with this email is already created.";
+            Assertions.assertThatThrownBy(() -> userServiceMock.addMember(CREATE_MEMBER_DTO))
+                    .isInstanceOf(UniqueFieldAlreadyExistException.class)
+                    .hasMessageContaining(expectedMessage);
+        }
+    }
+
+    @Nested
+    @DisplayName("ADMIN CREATION")
+    class AdminCreation {
     }
 }
 
