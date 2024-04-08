@@ -8,8 +8,8 @@ public class MemberDto {
 
     private UUID id;
     private String email;
-    private String lastname;
-    private String firstname;
+    private String lastname;    private String firstname;
+
     private Address address;
 
     public MemberDto(UUID id, String email, String lastname, String firstname, Address address) {
