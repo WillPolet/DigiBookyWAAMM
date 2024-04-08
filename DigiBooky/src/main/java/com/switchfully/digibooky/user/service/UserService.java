@@ -22,10 +22,16 @@ public class UserService {
 
     public MemberDto addMember(CreateMemberDto createMemberDTO) throws UniqueFieldAlreadyExistException {
         String inss = createMemberDTO.getInss();
-        Optional<Member> isUserInRepo = userRepository.getMemberByInss(inss);
+        String email = createMemberDTO.getEmail();
 
-        if (isUserInRepo.isPresent()){
+        Optional<Member> isUserInRepoByInss = userRepository.getMemberByInss(inss);
+        if (isUserInRepoByInss.isPresent()){
             throw new UniqueFieldAlreadyExistException("A user with this INSS is already created.");
+        }
+
+        Optional<Member> isUserInRepoByEmail = userRepository.getMemberByEmail(email);
+        if (isUserInRepoByEmail.isPresent()){
+            throw new UniqueFieldAlreadyExistException("A user with this email is already created.");
         }
 
         User savedUser = userRepository.addUser(userMapper.toMember(createMemberDTO));

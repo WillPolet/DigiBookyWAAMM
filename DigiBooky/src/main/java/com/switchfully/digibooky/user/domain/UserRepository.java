@@ -36,4 +36,12 @@ public class UserRepository {
                 .findFirst();
 
     }
+
+    public Optional<Member> getMemberByEmail(String email) {
+        return users.values().stream()
+                .filter(user -> user instanceof Member)
+                .map(user -> (Member) user)
+                .filter(member -> member.getEmail().equals(email))
+                .findFirst();
+    }
 }

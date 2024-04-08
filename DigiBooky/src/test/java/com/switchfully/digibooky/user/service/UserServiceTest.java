@@ -69,11 +69,22 @@ class UserServiceTest {
 
         @Test
         @DisplayName("Trying to create an already existing member(unique INSS) : throw Exc")
-        void creatingUser_whenMemberAlreadyCreated_thenPermissionDeniedAndNoMemberCreated() {
+        void creatingUser_whenMemberAlreadyCreatedCheckOnINSS_thenPermissionDeniedAndNoMemberCreated() {
             //GIVEN
             Mockito.when(userRepositoryMock.getMemberByInss(CREATE_MEMBER_DTO.getInss())).thenReturn(Optional.of(MEMBER));
 
             String expectedMessage = "A user with this INSS is already created.";
+            Assertions.assertThatThrownBy(() -> userServiceMock.addMember(CREATE_MEMBER_DTO))
+                    .isInstanceOf(UniqueFieldAlreadyExistException.class)
+                    .hasMessageContaining(expectedMessage);
+        }
+        @Test
+        @DisplayName("Trying to create an already existing member(unique EMAIL) : throw Exc")
+        void creatingUser_whenMemberAlreadyCreatedCheckOnEmail_thenPermissionDeniedAndNoMemberCreated() {
+            //GIVEN
+            Mockito.when(userRepositoryMock.getMemberByEmail(CREATE_MEMBER_DTO.getEmail())).thenReturn(Optional.of(MEMBER));
+
+            String expectedMessage = "A user with this email is already created.";
             Assertions.assertThatThrownBy(() -> userServiceMock.addMember(CREATE_MEMBER_DTO))
                     .isInstanceOf(UniqueFieldAlreadyExistException.class)
                     .hasMessageContaining(expectedMessage);
@@ -83,49 +94,6 @@ class UserServiceTest {
     @Nested
     @DisplayName("ADMIN CREATION")
     class AdminCreation {
-//        private static final Member MEMBER = new Member("a.b@hotmail.fr", "lastName", "password", ADDRESS, "33A");
-//        private static final CreateMemberDto CREATE_MEMBER_DTO = new CreateMemberDto(
-//                MEMBER.getEmail(),
-//                MEMBER.getLastname(),
-//                MEMBER.getFirstname(),
-//                MEMBER.getPassword(),
-//                MEMBER.getAddress(),
-//                MEMBER.getInss());
-//        private static final MemberDto MEMBER_DTO = new MemberDto(
-//                MEMBER.getId(),
-//                MEMBER.getEmail(),
-//                MEMBER.getLastname(),
-//                MEMBER.getFirstname(),
-//                MEMBER.getAddress());
-//
-//        @Test
-//        @DisplayName("Creating a member should return a new corresponding member DTO")
-//        void creatingUser_whenGivenCorrectData_thenWillReturnUserDTO() {
-//            //GIVEN
-//            Mockito.when(userMapperMock.toMember(CREATE_MEMBER_DTO))
-//                    .thenReturn(MEMBER);
-//            Mockito.when(userRepositoryMock.addUser(MEMBER)).thenReturn(MEMBER);
-//            Mockito.when(userMapperMock.toMemberDto(MEMBER))
-//                    .thenReturn(MEMBER_DTO);
-//
-//            //WHEN
-//            MemberDto actualMemberDto = userServiceMock.addMember(CREATE_MEMBER_DTO);
-//
-//            // THEN
-//            Assertions.assertThat(actualMemberDto.getId()).isEqualTo(MEMBER.getId());
-//        }
-//
-//        @Test
-//        @DisplayName("Trying to create an already existing member(unique INSS) : throw Exc")
-//        void creatingUser_whenMemberAlreadyCreated_thenPermissionDeniedAndNoMemberCreated() {
-//            //GIVEN
-//            Mockito.when(userRepositoryMock.getMemberByInss(CREATE_MEMBER_DTO.getInss())).thenReturn(Optional.of(MEMBER));
-//
-//            String expectedMessage = "A user with this INSS is already created.";
-//            Assertions.assertThatThrownBy(() -> userServiceMock.addMember(CREATE_MEMBER_DTO))
-//                    .isInstanceOf(UniqueFieldAlreadyExistException.class)
-//                    .hasMessageContaining(expectedMessage);
-//        }
     }
 
 
