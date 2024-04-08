@@ -1,7 +1,10 @@
 package com.switchfully.digibooky.user.service;
 
+import com.switchfully.digibooky.user.domain.Librarian;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.User;
+import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
+import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Component;
@@ -32,6 +35,26 @@ public class UserMapper {
                 memberToConvert.getLastname(),
                 memberToConvert.getFirstname(),
                 memberToConvert.getAddress());
+    }
+
+    public LibrarianDto toLibrarianDto(User savedUser) {
+        if (!(savedUser instanceof Librarian)) {
+            throw new IllegalArgumentException("Implement me");
+        }
+        Librarian librarianToConvert = (Librarian) savedUser;
+        return new LibrarianDto(
+                librarianToConvert.getId(),
+                librarianToConvert.getEmail(),
+                librarianToConvert.getLastname(),
+                librarianToConvert.getFirstname());
+    }
+
+    public Librarian toLibrarian(CreateLibrarianDto librarianToCreate) {
+        return new Librarian(
+                librarianToCreate.getEmail(),
+                librarianToCreate.getLastName(),
+                librarianToCreate.getFirstName(),
+                librarianToCreate.getPassword());
     }
 }
 

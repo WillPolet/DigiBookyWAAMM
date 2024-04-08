@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
-    private Map<UUID, User> users;
+    private Map<String, User> users;
 
     public UserRepository() {
         this.users = new ConcurrentHashMap<>();
@@ -34,6 +34,5 @@ public class UserRepository {
                 .map(user -> (Member) user)
                 .filter(member -> member.getInss().equals(inss))
                 .findFirst();
-
     }
 }

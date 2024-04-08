@@ -2,9 +2,12 @@ package com.switchfully.digibooky.user.service;
 
 
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
+import com.switchfully.digibooky.user.domain.Librarian;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.UserRepository;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
+import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
+import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.assertj.core.api.Assertions;
@@ -50,6 +53,23 @@ class UserServiceTest {
                 MEMBER.getFirstname(),
                 MEMBER.getAddress());
 
+        private static final CreateLibrarianDto CREATE_LIBRARIAN_DTO = new CreateLibrarianDto(
+                "couocu@mail.com",
+                "Atmey",
+                "Luke",
+                "pwd");
+        private static final Librarian LIBRARIAN = new Librarian(
+                CREATE_LIBRARIAN_DTO.getEmail(),
+                CREATE_LIBRARIAN_DTO.getLastName(),
+                CREATE_LIBRARIAN_DTO.getFirstName(),
+                CREATE_LIBRARIAN_DTO.getPassword());
+
+        private static final LibrarianDto LIBRARIAN_DTO = new LibrarianDto(
+                LIBRARIAN.getId(),
+                LIBRARIAN.getEmail(),
+                LIBRARIAN.getLastname(),
+                LIBRARIAN.getFirstname());
+
         @Test
         @DisplayName("Creating a member should return a new corresponding member DTO")
         void creatingUser_whenGivenCorrectData_thenWillReturnUserDTO() {
@@ -68,6 +88,20 @@ class UserServiceTest {
         }
 
         @Test
+        @DisplayName("Creating a librarian should return a new corresponding librarian DTO")
+        void creatingLibrarian_whenGivenCorrectData_thenWillReturnLibrarianDTO() {
+            //GIVEN
+            Mockito.when(userMapperMock.toLibrarian(CREATE_LIBRARIAN_DTO))
+                    .thenReturn(LIBRARIAN);
+            Mockito.when(userRepositoryMock.addUser(LIBRARIAN)).thenReturn(LIBRARIAN);
+            Mockito.when(userMapperMock.toLibrarianDto(LIBRARIAN))
+                    .thenReturn(LIBRARIAN_DTO);
+
+            LibrarianDto actualLibrarianDto = userServiceMock.addLibrarian(CREATE_LIBRARIAN_DTO);
+            Assertions.assertThat(actualLibrarianDto.getId()).isEqualTo(LIBRARIAN.getId());
+        }
+
+        @Test
         @DisplayName("Trying to create an already existing member(unique INSS) : throw Exc")
         void creatingUser_whenMemberAlreadyCreated_thenPermissionDeniedAndNoMemberCreated() {
             //GIVEN
@@ -78,11 +112,11 @@ class UserServiceTest {
                     .isInstanceOf(UniqueFieldAlreadyExistException.class)
                     .hasMessageContaining(expectedMessage);
         }
-    }
 
-    @Nested
-    @DisplayName("ADMIN CREATION")
-    class AdminCreation {
+
+        @Nested
+        @DisplayName("ADMIN CREATION")
+        class AdminCreation {
 //        private static final Member MEMBER = new Member("a.b@hotmail.fr", "lastName", "password", ADDRESS, "33A");
 //        private static final CreateMemberDto CREATE_MEMBER_DTO = new CreateMemberDto(
 //                MEMBER.getEmail(),
@@ -126,8 +160,9 @@ class UserServiceTest {
 //                    .isInstanceOf(UniqueFieldAlreadyExistException.class)
 //                    .hasMessageContaining(expectedMessage);
 //        }
+        }
+
+
     }
-
-
 }
 

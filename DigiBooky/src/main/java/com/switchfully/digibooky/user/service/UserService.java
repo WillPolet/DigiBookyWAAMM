@@ -4,6 +4,8 @@ import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.User;
 import com.switchfully.digibooky.user.domain.UserRepository;
+import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
+import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,10 @@ public class UserService {
 
         User savedUser = userRepository.addUser(userMapper.toMember(createMemberDTO));
         return userMapper.toMemberDto(savedUser);
+    }
+
+    public LibrarianDto addLibrarian(CreateLibrarianDto createLibrarianDto) throws UniqueFieldAlreadyExistException{
+        User savedUser = userRepository.addUser(userMapper.toLibrarian(createLibrarianDto));
+        return userMapper.toLibrarianDto(savedUser);
     }
 }

@@ -6,13 +6,13 @@ import java.util.UUID;
 
 public class MemberDto {
 
-    private UUID id;
+    private String id;
     private String email;
     private String lastname;    private String firstname;
 
     private Address address;
 
-    public MemberDto(UUID id, String email, String lastname, String firstname, Address address) {
+    public MemberDto(String id, String email, String lastname, String firstname, Address address) {
         this.id = id;
         this.email = email;
         this.lastname = lastname;
@@ -20,7 +20,7 @@ public class MemberDto {
         this.address = address;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
