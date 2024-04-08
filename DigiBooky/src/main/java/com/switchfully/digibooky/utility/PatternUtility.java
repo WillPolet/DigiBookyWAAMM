@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class PatternUtility {
 
-    public static Pattern getPattern(String regex) {
-        return Pattern.compile("^" + regex.replace("*", ".*") + "$");
+    public static Pattern getPattern(String searchText) {
+        return Pattern.compile("^.*" + searchText + ".*$");
     }
 }

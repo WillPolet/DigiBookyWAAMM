@@ -53,9 +53,9 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?title=title*");
+        List<BookDto> booksDto = searchBooks("?title=title");
 
-        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto);
+        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto, book3Dto);
     }
 
     @Test
@@ -64,7 +64,18 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?isbn=isbn*");
+        List<BookDto> booksDto = searchBooks("?isbn=isbn");
+
+        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto, book3Dto);
+    }
+
+    @Test
+    void givenExistingBooks_whenSearchBooksByTitleAndIsbn_thenReturnMatchedBooksDto() {
+        BookDto book1Dto = createABook(CREATE_BOOK1_DTO);
+        BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
+        BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
+
+        List<BookDto> booksDto = searchBooks("?title=title&isbn=isbn");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto, book3Dto);
     }
@@ -75,9 +86,20 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?authorFirstname=firstname*");
+        List<BookDto> booksDto = searchBooks("?authorFirstname=firstname");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto, book3Dto);
+    }
+
+    @Test
+    void givenExistingBooks_whenSearchBooksByLastname_thenReturnMatchedBooksDto() {
+        BookDto book1Dto = createABook(CREATE_BOOK1_DTO);
+        BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
+        BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
+
+        List<BookDto> booksDto = searchBooks("?authorLastname=lastname");
+
+        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book1Dto, book2Dto, book3Dto);
     }
 
     @Test
@@ -86,18 +108,7 @@ class BookControllerTest {
         BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
         BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
 
-        List<BookDto> booksDto = searchBooks("?authorFirstname=firstname*&authorLastname=lastname*");
-
-        Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book2Dto);
-    }
-
-    @Test
-    void agivenExistingBooks_whenSearchBooksByTitleAndIsbn_thenReturnMatchedBooksDto() {
-        BookDto book1Dto = createABook(CREATE_BOOK1_DTO);
-        BookDto book2Dto = createABook(CREATE_BOOK2_DTO);
-        BookDto book3Dto = createABook(CREATE_BOOK3_DTO);
-
-        List<BookDto> booksDto = searchBooks("?title=*title*&isbn=isbn*&authorFirstname=firstname*&authorLastname=3lastname3");
+        List<BookDto> booksDto = searchBooks("?title=title&isbn=isbn&authorFirstname=firstname&authorLastname=3lastname3");
 
         Assertions.assertThat(booksDto).containsExactlyInAnyOrder(book3Dto);
     }
