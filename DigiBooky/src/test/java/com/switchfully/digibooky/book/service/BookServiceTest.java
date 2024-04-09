@@ -32,8 +32,8 @@ class BookServiceTest {
     private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", true, false, AUTHOR2);
     private static final Book BOOK3 = new Book("isbn3", "3title", "summary", true, false, AUTHOR3);
 
-    private static final CreateBookDto BOOK1_CREATE_DTO = new CreateBookDto("is1bn1", "title1","summary", AUTHOR1_CREATE_DTO);
-    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("title1", "summaryhihi", false, false,AUTHOR1_UPDATE_DTO);
+    private static final CreateBookDto BOOK1_CREATE_DTO = new CreateBookDto("isbn1", "title1","summary", AUTHOR1_CREATE_DTO);
+    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("isbn1", "title1", "summaryhihi", false, false,AUTHOR1_UPDATE_DTO);
     private static final String BOOK1_UPDATE_DTO_ID = "book1Id";
     private static final List<Book> BOOKS = List.of(BOOK1, BOOK2, BOOK3);
     private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.getAccessible(), BOOK1.getRented(), BOOK1.getAuthor());

@@ -2,32 +2,36 @@ package com.switchfully.digibooky.book.service.dto;
 
 import com.switchfully.digibooky.author.domain.Author;
 import com.switchfully.digibooky.author.service.dto.UpdateAuthorDto;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.UUID;
 
 public class UpdateBookDto {
     @NotEmpty
+    private String isbn;
     private String title;
-    @NotEmpty
     private String summary;
-    @NotEmpty
     private Boolean isAccessible;
-    @NotEmpty
     private Boolean isRented;
-    @NotEmpty
+    @Valid
     private UpdateAuthorDto author;
 
     public UpdateBookDto() {
         // JACKSON
     }
 
-    public UpdateBookDto(String title, String summary, Boolean isAccessible, Boolean isRented, UpdateAuthorDto author) {
+    public UpdateBookDto(String isbn,String title, String summary, Boolean isAccessible, Boolean isRented, UpdateAuthorDto author) {
+        this.isbn = isbn;
         this.title = title;
         this.summary = summary;
         this.isAccessible = isAccessible;
         this.isRented = isRented;
         this.author = author;
+    }
+
+    public String getIsbn() {
+        return isbn;
     }
 
     public String getTitle() {

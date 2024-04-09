@@ -48,7 +48,7 @@ public class BookService {
         Author authorFromUpdateBook = getExistingAuthorOrCreateIt(updateBookDto.getAuthor());
         // get isbn based on ID
         String isbn = bookRepository.getIsbnById(id);
-
+//        if (!isbn.equals(updateBookDto.getIsbn()))
         Book book = new Book(id, isbn, updateBookDto.getTitle(), updateBookDto.getSummary(), updateBookDto.getAccessible(), updateBookDto.getRented(), authorFromUpdateBook);
         bookRepository.updateBook(book, id);
         return bookMapper.toDTO(book);

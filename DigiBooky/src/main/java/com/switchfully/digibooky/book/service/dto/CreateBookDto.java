@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.book.service.dto;
 
 import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,7 +15,7 @@ public class CreateBookDto {
         private String summary;
         private Boolean isAccessible;
         private Boolean isRented;
-        @NotNull
+        @Valid
         private CreateAuthorDto author;
 
     public CreateBookDto() {

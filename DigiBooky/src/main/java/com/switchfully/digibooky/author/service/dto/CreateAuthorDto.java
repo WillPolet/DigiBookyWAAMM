@@ -1,7 +1,10 @@
 package com.switchfully.digibooky.author.service.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class CreateAuthorDto {
     private String firstname;
+    @NotEmpty
     private String lastname;
 
     public CreateAuthorDto() {
