@@ -8,10 +8,14 @@ import com.switchfully.digibooky.lending.service.dto.CreateLendingDto;
 import com.switchfully.digibooky.lending.service.dto.LendingDto;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.service.UserMapper;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Component;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 @Component
@@ -28,16 +32,20 @@ public class LendingMapper {
         return new LendingDto(lending.getId(), userMapper.toMemberDto(lending.getMember()), bookMapper.toDTO(lending.getBook()), lending.getLendingDate().toString(), lending.getReturningDate().toString());
     }
 
+    public List<LendingDto> toDto(Collection<Lending> lendings) {
+        return lendings.stream().map(this::toDto).toList();
+    }
+
     public Lending fromDto(CreateLendingDto createLendingDto, Book book, Member member) {
         if (createLendingDto.getReturningDate() == null) {
             return new Lending(member, book);
         }
-        // MUST BE TESTED
         LocalDate returningDate;
         try {
-            returningDate = LocalDate.parse(createLendingDto.getReturningDate());
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            returningDate = LocalDate.parse(createLendingDto.getReturningDate(), dateTimeFormatter);
         }
-        catch (DateTimeException ex) {
+        catch (Exception ex) {
             throw new DateFormatException("Returning date format is not valid");
         }
         return new Lending(member, book, returningDate);

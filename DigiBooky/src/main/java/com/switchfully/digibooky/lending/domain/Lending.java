@@ -28,6 +28,7 @@ public class Lending {
         this.id = UUID.randomUUID().toString();
         this.member = member;
         this.book = book;
+        this.book.setRented(true);
         this.lendingDate = LocalDate.now();
         this.active = true;
     }
@@ -58,6 +59,11 @@ public class Lending {
 
     public void deactivate() {
         active = false;
+        this.book.setRented(false);
+    }
+
+    public boolean isOverdue() {
+        return returningDate.isBefore(LocalDate.now());
     }
 
     @Override

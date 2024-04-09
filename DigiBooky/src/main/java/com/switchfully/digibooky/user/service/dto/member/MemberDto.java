@@ -44,12 +44,13 @@ public class MemberDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MemberDto memberDto)) return false;
-        return Objects.equals(getEmail(), memberDto.getEmail()) && Objects.equals(getLastname(), memberDto.getLastname()) && Objects.equals(getFirstname(), memberDto.getFirstname()) && Objects.equals(getAddress(), memberDto.getAddress());
+        if (o == null || getClass() != o.getClass()) return false;
+        MemberDto memberDto = (MemberDto) o;
+        return Objects.equals(id, memberDto.id) && Objects.equals(email, memberDto.email) && Objects.equals(lastname, memberDto.lastname) && Objects.equals(firstname, memberDto.firstname) && Objects.equals(address, memberDto.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEmail(), getLastname(), getFirstname(), getAddress());
+        return Objects.hash(id, email, lastname, firstname, address);
     }
 }
