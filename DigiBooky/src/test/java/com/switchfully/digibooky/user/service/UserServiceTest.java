@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,7 +42,23 @@ class UserServiceTest {
     @Nested
     @DisplayName("MEMBER CREATION")
     class MemberCreation {
-        private static final Member MEMBER = new Member("a.b@hotmail.fr", "lastName", "password", ADDRESS, "33A");
+        private static final Member MEMBER = new Member("a.b@hotmail.fr",
+                "lastName",
+                "password",
+                ADDRESS,
+                "33A");
+
+        private static final Member MEMBER2 = new Member("b.c@hotmail.fr",
+                "lastName",
+                "password",
+                ADDRESS,
+                "34A");
+
+        private static final Member MEMBER3 = new Member("c.d@hotmail.fr",
+                "lastName",
+                "password",
+                ADDRESS,
+                "35A");
         private static final CreateMemberDto CREATE_MEMBER_DTO = new CreateMemberDto(
                 MEMBER.getEmail(),
                 MEMBER.getLastname(),
@@ -55,6 +72,20 @@ class UserServiceTest {
                 MEMBER.getLastname(),
                 MEMBER.getFirstname(),
                 MEMBER.getAddress());
+
+        private static final MemberDto MEMBER_DTO2 = new MemberDto(
+                MEMBER2.getId(),
+                MEMBER2.getEmail(),
+                MEMBER2.getLastname(),
+                MEMBER2.getFirstname(),
+                MEMBER2.getAddress());
+
+        private static final MemberDto MEMBER_DTO3 = new MemberDto(
+                MEMBER3.getId(),
+                MEMBER3.getEmail(),
+                MEMBER3.getLastname(),
+                MEMBER3.getFirstname(),
+                MEMBER3.getAddress());
 
         private static final CreateLibrarianDto CREATE_LIBRARIAN_DTO = new CreateLibrarianDto(
                 "couocu@mail.com",
@@ -123,7 +154,7 @@ class UserServiceTest {
 
         @Test
         @DisplayName("Creating an admin should return a new corresponding admin DTO")
-        void createinAnAdmin_givenCorrectData_willReturnAdminDto() {
+        void creatingAdmin_givenCorrectData_willReturnAdminDto() {
             //GIVEN
             Mockito.when(userMapperMock.toAdmin(CREATE_ADMIN_DTO))
                     .thenReturn(ADMIN);
@@ -150,13 +181,31 @@ class UserServiceTest {
         @Test
         @DisplayName("Trying to create an already existing member(unique EMAIL) : throw Exc")
         void creatingUser_whenMemberAlreadyCreatedCheckOnEmail_thenPermissionDeniedAndNoMemberCreated() {
-            //GIVEN
+            // GIVEN
             Mockito.when(userRepositoryMock.getUserByEmail(CREATE_MEMBER_DTO.getEmail())).thenReturn(Optional.of(MEMBER));
 
             String expectedMessage = "A user with this email is already created.";
             Assertions.assertThatThrownBy(() -> userServiceMock.addMember(CREATE_MEMBER_DTO))
                     .isInstanceOf(UniqueFieldAlreadyExistException.class)
                     .hasMessageContaining(expectedMessage);
+        }
+
+        @Test
+        @DisplayName("GetAllMembers transorm the list of Member in list of MemberDto")
+        void getAllMembers_whenCalled_returnListMemberDto(){
+            // GIVEN
+            Mockito.when(userRepositoryMock.getAllMembers())
+                    .thenReturn(List.of(MEMBER, MEMBER2, MEMBER3));
+
+            Mockito.when(userMapperMock.toMemberDto(List.of(MEMBER, MEMBER2, MEMBER3)))
+                    .thenReturn(List.of(MEMBER_DTO, MEMBER_DTO2, MEMBER_DTO3));
+
+            List<MemberDto> listMemberDtoToFind = List.of(MEMBER_DTO, MEMBER_DTO2, MEMBER_DTO3);
+
+            // WHEN
+            List<MemberDto> actualListMemberDto = userServiceMock.getAllMembers();
+
+            Assertions.assertThat(actualListMemberDto).containsExactlyInAnyOrderElementsOf(listMemberDtoToFind);
         }
     }
 }

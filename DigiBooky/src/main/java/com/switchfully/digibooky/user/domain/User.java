@@ -3,6 +3,7 @@ package com.switchfully.digibooky.user.domain;
 import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class User {
@@ -51,6 +52,18 @@ public abstract class User {
 
     public List<RoleFeature> getRoleFeatures() {
         return roleFeatures;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getLastname(), user.getLastname()) && Objects.equals(getFirstname(), user.getFirstname());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getLastname(), getFirstname());
     }
 }
 

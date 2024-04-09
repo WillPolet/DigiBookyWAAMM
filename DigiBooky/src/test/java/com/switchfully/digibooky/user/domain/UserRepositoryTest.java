@@ -12,6 +12,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserRepositoryTest {
+    private static final Admin ROOT =  new Admin("root@root.com", "rootLastName", "rootFirstName", "rootPswd");
     private static final Admin ADMIN = new Admin("p@a.com", "Phoenix", "Wright", "pwd");
     private static final Librarian LIBRARIAN = new Librarian("l@a.com", "Luke", "Atmey", "pwd");
     private static final Address ADDRESS = new Address("Justice Street", "7", "2000", "Charleroi");
@@ -30,7 +31,7 @@ class UserRepositoryTest {
     void gettingUser_givenRepoContainsData_willReturnListOfUser() {
         Collection<User> actual = userRepo.getAllUsers();
 
-        List<User> expected = List.of(ADMIN, MEMBER, LIBRARIAN);
+        List<User> expected = List.of(ROOT,ADMIN, MEMBER, LIBRARIAN);
         Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 

@@ -12,6 +12,10 @@ import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
 
@@ -38,6 +42,10 @@ public class UserMapper {
                 memberToConvert.getLastname(),
                 memberToConvert.getFirstname(),
                 memberToConvert.getAddress());
+    }
+
+    public List<MemberDto> toMemberDto(List<Member> savedUsers){
+        return savedUsers.stream().map(this::toMemberDto).collect(Collectors.toList());
     }
 
     public LibrarianDto toLibrarianDto(User savedUser) {

@@ -13,7 +13,6 @@ public class Librarian extends User {
                 firstName,
                 password,
                 List.of(RoleFeature.MODERATE,
-                        RoleFeature.VIEW_ALL,
                         RoleFeature.CREATE_BOOK,
                         RoleFeature.UPDATE_BOOK,
                         RoleFeature.DELETE_BOOK,
