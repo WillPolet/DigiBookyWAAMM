@@ -52,6 +52,13 @@ class UserServiceTestIntegration {
 
         //THEN
         Assertions.assertThat(CREATE_MEMBER_DTO.getEmail()).isEqualTo(memberDto.getEmail());
+        Assertions.assertThat(memberDto.getId()).isNotNull();
+        Assertions.assertThat(memberDto.getLastName()).isNotNull();
+        Assertions.assertThat(memberDto.getFirstName()).isNotNull();
+        Assertions.assertThat(memberDto.getAddress().getStreetName()).isNotNull();
+        Assertions.assertThat(memberDto.getAddress().getStreetNumber()).isNotNull();
+        Assertions.assertThat(memberDto.getAddress().getCity()).isNotNull();
+        Assertions.assertThat(memberDto.getAddress().getZipCode()).isNotNull();
     }
 
     @Test
@@ -63,6 +70,9 @@ class UserServiceTestIntegration {
 
         //THEN
         Assertions.assertThat(CREATE_ADMIN_DTO.getEmail()).isEqualTo(adminDto.getEmail());
+        Assertions.assertThat(adminDto.getId()).isNotNull();
+        Assertions.assertThat(adminDto.getFirstName()).isNotNull();
+        Assertions.assertThat(adminDto.getLastName()).isNotNull();
     }
 
     @Test
