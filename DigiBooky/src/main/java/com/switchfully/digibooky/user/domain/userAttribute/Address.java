@@ -1,12 +1,17 @@
 package com.switchfully.digibooky.user.domain.userAttribute;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 public class Address {
     private String streetName;
     private String streetNumber;
     private String zipCode;
+    @NotNull(message = "City cannot be null.")
     private String city;
+
+    public Address(){}
 
     public Address(String streetName, String streetNumber, String zipCode, String city) {
         this.streetName = streetName;
@@ -14,6 +19,7 @@ public class Address {
         this.zipCode = zipCode;
         this.city = city;
     }
+
 
     public String getStreetName() {
         return streetName;

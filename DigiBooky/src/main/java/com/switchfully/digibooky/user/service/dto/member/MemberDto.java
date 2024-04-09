@@ -1,13 +1,11 @@
-package com.switchfully.digibooky.user.service.dto;
+package com.switchfully.digibooky.user.service.dto.member;
 
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
-import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class MemberDTO {
+public class MemberDto {
 
     private String id;
     private String email;
@@ -15,7 +13,7 @@ public class MemberDTO {
     private String firstname;
     private Address address;
 
-    public MemberDTO(String id, String email, String lastname, String firstname, Address address) {
+    public MemberDto(String id, String email, String lastname, String firstname, Address address) {
         this.id = id;
         this.email = email;
         this.lastname = lastname;
@@ -46,13 +44,12 @@ public class MemberDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MemberDTO memberDTO = (MemberDTO) o;
-        return Objects.equals(id, memberDTO.id) && Objects.equals(email, memberDTO.email) && Objects.equals(lastname, memberDTO.lastname) && Objects.equals(firstname, memberDTO.firstname) && Objects.equals(address, memberDTO.address);
+        if (!(o instanceof MemberDto memberDto)) return false;
+        return Objects.equals(getEmail(), memberDto.getEmail()) && Objects.equals(getLastname(), memberDto.getLastname()) && Objects.equals(getFirstname(), memberDto.getFirstname()) && Objects.equals(getAddress(), memberDto.getAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, lastname, firstname, address);
+        return Objects.hash(getEmail(), getLastname(), getFirstname(), getAddress());
     }
 }
