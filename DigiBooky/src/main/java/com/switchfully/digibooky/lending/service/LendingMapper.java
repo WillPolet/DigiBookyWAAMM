@@ -32,6 +32,7 @@ public class LendingMapper {
         if (createLendingDto.getReturningDate() == null) {
             return new Lending(member, book);
         }
+        // MUST BE TESTED
         LocalDate returningDate;
         try {
             returningDate = LocalDate.parse(createLendingDto.getReturningDate());
