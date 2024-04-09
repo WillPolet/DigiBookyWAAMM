@@ -76,7 +76,7 @@ class UserServiceTestIntegration {
     }
 
     @Test
-    void addLibrarian_whenCorrectLibrarianDTO_thenGoodLibrarianrDTOReturn() {
+    void addLibrarian_whenCorrectLibrarianDTO_thenGoodLibrarianDTOReturn() {
         //GIVEN
 
         //WHEN
@@ -84,6 +84,9 @@ class UserServiceTestIntegration {
 
         //THEN
         Assertions.assertThat(CREATE_LIBRARIAN_DTO.getEmail()).isEqualTo(librarianDto.getEmail());
+        Assertions.assertThat(librarianDto.getId()).isNotNull();
+        Assertions.assertThat(librarianDto.getFirstName()).isNotNull();
+        Assertions.assertThat(librarianDto.getLastName()).isNotNull();
     }
 
 
