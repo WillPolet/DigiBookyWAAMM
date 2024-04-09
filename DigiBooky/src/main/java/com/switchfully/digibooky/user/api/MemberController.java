@@ -15,7 +15,7 @@ public class MemberController {
         this.userService = userService;
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public MemberDTO createMember(@RequestBody CreateMemberDTO createMemberDTO){
         // Example for authorization

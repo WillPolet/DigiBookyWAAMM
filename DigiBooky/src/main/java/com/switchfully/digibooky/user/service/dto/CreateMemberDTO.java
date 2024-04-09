@@ -23,10 +23,6 @@ public class CreateMemberDTO {
         this.inss = inss;
     }
 
-    public CreateMemberDTO(String email, String lastname, String password, Address address, String inss) {
-        this(email, lastname, "", password, address, inss);
-    }
-
     public String getEmail() {
         return email;
     }

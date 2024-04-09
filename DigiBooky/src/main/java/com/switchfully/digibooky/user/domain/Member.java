@@ -10,7 +10,7 @@ public class Member extends User {
     private Address address;
     private String inss;
     public Member(String email, String lastName, String firstName, String password, Address address, String inss){
-        super(UUID.randomUUID(),
+        super(UUID.randomUUID().toString(),
                 email,
                 lastName,
                 firstName,
@@ -21,7 +21,7 @@ public class Member extends User {
     }
 
     public Member(String email, String lastName, String password, Address address, String inss){
-        super(UUID.randomUUID(),
+        super(UUID.randomUUID().toString(),
                 email,
                 lastName,
                 "",
