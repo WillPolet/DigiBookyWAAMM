@@ -16,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,4 +44,12 @@ public class MemberController {
         authorizationService.hasFeature(RoleFeature.CHECK_ALL_RENTALS, authorization);
         return lendingService.getLendingsByMember(id);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public Collection<MemberDto> getAllMembers(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization){
+        authorizationService.hasFeature(RoleFeature.VIEW_ALL, authorization);
+        return userService.getAllMembers();
+    }
+
 }

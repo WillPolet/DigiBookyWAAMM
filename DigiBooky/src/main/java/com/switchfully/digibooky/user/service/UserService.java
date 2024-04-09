@@ -12,6 +12,8 @@ import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,5 +64,9 @@ public class UserService {
 
         User savedUser = userRepository.addUser(userMapper.toAdmin(createAdminDto));
         return userMapper.toAdminDto(savedUser);
+    }
+
+    public List<MemberDto> getAllMembers() {
+        return userMapper.toMemberDto(userRepository.getAllMembers());
     }
 }

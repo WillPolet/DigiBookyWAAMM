@@ -15,4 +15,6 @@ public class Admin extends User { public Admin(String email, String lastName, St
                         RoleFeature.CREATE_LIBRARIAN,
                         RoleFeature.VIEW_ALL));
     }
+
+
 }

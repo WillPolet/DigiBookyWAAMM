@@ -3,10 +3,7 @@ package com.switchfully.digibooky.user.domain;
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -46,5 +43,12 @@ public class UserRepository {
         return users.values().stream()
                 .filter(member -> member.getEmail().equals(email))
                 .findFirst();
+    }
+
+    public List<Member> getAllMembers() {
+        return users.values().stream()
+                .filter(user -> user instanceof Member)
+                .map(user -> (Member) user)
+                .collect(Collectors.toList());
     }
 }
