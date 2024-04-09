@@ -1,8 +1,11 @@
 package com.switchfully.digibooky.user.service;
 
+import com.switchfully.digibooky.user.domain.Admin;
 import com.switchfully.digibooky.user.domain.Librarian;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.User;
+import com.switchfully.digibooky.user.service.dto.admin.AdminDto;
+import com.switchfully.digibooky.user.service.dto.admin.CreateAdminDto;
 import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
 import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
@@ -55,6 +58,26 @@ public class UserMapper {
                 librarianToCreate.getLastName(),
                 librarianToCreate.getFirstName(),
                 librarianToCreate.getPassword());
+    }
+
+    public AdminDto toAdminDto(User savedUser) {
+        if (!(savedUser instanceof Admin)) {
+            throw new IllegalArgumentException("Implement me");
+        }
+        Admin adminToConvert = (Admin) savedUser;
+        return new AdminDto(
+                adminToConvert.getId(),
+                adminToConvert.getEmail(),
+                adminToConvert.getLastname(),
+                adminToConvert.getFirstname());
+    }
+
+    public Admin toAdmin(CreateAdminDto createAdminDto) {
+        return new Admin(
+                createAdminDto.getEmail(),
+                createAdminDto.getLastName(),
+                createAdminDto.getFirstName(),
+                createAdminDto.getPassword());
     }
 }
 

@@ -2,16 +2,21 @@ package com.switchfully.digibooky.user.service.dto.admin;
 
 public class AdminDto {
 
-    String email;
-    String lastName;
-    String firstName;
-    String password;
+    private String id;
+    private String email;
+    private String lastName;
+    private String firstName;
+    private String password;
 
-    public AdminDto(String email, String lastName, String firstName, String password) {
+    public AdminDto(String id, String email, String lastName, String firstName) {
+        this.id = id;
         this.email = email;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.password = password;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -29,4 +34,5 @@ public class AdminDto {
     public String getPassword() {
         return password;
     }
+
 }

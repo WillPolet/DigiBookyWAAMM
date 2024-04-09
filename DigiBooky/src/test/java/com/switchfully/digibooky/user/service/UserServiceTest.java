@@ -2,10 +2,13 @@ package com.switchfully.digibooky.user.service;
 
 
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
+import com.switchfully.digibooky.user.domain.Admin;
 import com.switchfully.digibooky.user.domain.Librarian;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.UserRepository;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
+import com.switchfully.digibooky.user.service.dto.admin.AdminDto;
+import com.switchfully.digibooky.user.service.dto.admin.CreateAdminDto;
 import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
 import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
@@ -70,6 +73,23 @@ class UserServiceTest {
                 LIBRARIAN.getLastname(),
                 LIBRARIAN.getFirstname());
 
+        private static final CreateAdminDto CREATE_ADMIN_DTO = new CreateAdminDto(
+                "couocu@mail.com",
+                "Atmey",
+                "Luke",
+                "pwd");
+        private static final Admin ADMIN = new Admin(
+                CREATE_ADMIN_DTO.getEmail(),
+                CREATE_ADMIN_DTO.getLastName(),
+                CREATE_ADMIN_DTO.getFirstName(),
+                CREATE_ADMIN_DTO.getPassword());
+
+        private static final AdminDto ADMIN_DTO = new AdminDto(
+                ADMIN.getId(),
+                ADMIN.getEmail(),
+                ADMIN.getLastname(),
+                ADMIN.getFirstname());
+
         @Test
         @DisplayName("Creating a member should return a new corresponding member DTO")
         void creatingUser_whenGivenCorrectData_thenWillReturnUserDTO() {
@@ -102,6 +122,20 @@ class UserServiceTest {
         }
 
         @Test
+        @DisplayName("Creating an admin should return a new corresponding admin DTO")
+        void createinAnAdmin_givenCorrectData_willReturnAdminDto() {
+            //GIVEN
+            Mockito.when(userMapperMock.toAdmin(CREATE_ADMIN_DTO))
+                    .thenReturn(ADMIN);
+            Mockito.when(userRepositoryMock.addUser(ADMIN)).thenReturn(ADMIN);
+            Mockito.when(userMapperMock.toAdminDto(ADMIN))
+                    .thenReturn(ADMIN_DTO);
+
+            AdminDto actualAdminDto = userServiceMock.addAdmin(CREATE_ADMIN_DTO);
+            Assertions.assertThat(actualAdminDto.getId()).isEqualTo(ADMIN.getId());
+        }
+
+        @Test
         @DisplayName("Trying to create an already existing member(unique INSS) : throw Exc")
         void creatingUser_whenMemberAlreadyCreatedCheckOnINSS_thenPermissionDeniedAndNoMemberCreated() {
             //GIVEN
@@ -112,6 +146,7 @@ class UserServiceTest {
                     .isInstanceOf(UniqueFieldAlreadyExistException.class)
                     .hasMessageContaining(expectedMessage);
         }
+
 
         @Nested
         @DisplayName("ADMIN CREATION")
@@ -166,7 +201,7 @@ class UserServiceTest {
         @DisplayName("Trying to create an already existing member(unique EMAIL) : throw Exc")
         void creatingUser_whenMemberAlreadyCreatedCheckOnEmail_thenPermissionDeniedAndNoMemberCreated() {
             //GIVEN
-            Mockito.when(userRepositoryMock.getMemberByEmail(CREATE_MEMBER_DTO.getEmail())).thenReturn(Optional.of(MEMBER));
+            Mockito.when(userRepositoryMock.getUserByEmail(CREATE_MEMBER_DTO.getEmail())).thenReturn(Optional.of(MEMBER));
 
             String expectedMessage = "A user with this email is already created.";
             Assertions.assertThatThrownBy(() -> userServiceMock.addMember(CREATE_MEMBER_DTO))

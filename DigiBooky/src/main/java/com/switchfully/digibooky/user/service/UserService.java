@@ -4,6 +4,8 @@ import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.User;
 import com.switchfully.digibooky.user.domain.UserRepository;
+import com.switchfully.digibooky.user.service.dto.admin.AdminDto;
+import com.switchfully.digibooky.user.service.dto.admin.CreateAdminDto;
 import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
 import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
@@ -27,12 +29,12 @@ public class UserService {
         String email = createMemberDTO.getEmail();
 
         Optional<Member> isUserInRepoByInss = userRepository.getMemberByInss(inss);
-        if (isUserInRepoByInss.isPresent()){
+        if (isUserInRepoByInss.isPresent()) {
             throw new UniqueFieldAlreadyExistException("A user with this INSS is already created.");
         }
 
-        Optional<Member> isUserInRepoByEmail = userRepository.getMemberByEmail(email);
-        if (isUserInRepoByEmail.isPresent()){
+        Optional<User> isUserInRepoByEmail = userRepository.getUserByEmail(email);
+        if (isUserInRepoByEmail.isPresent()) {
             throw new UniqueFieldAlreadyExistException("A user with this email is already created.");
         }
 
@@ -40,8 +42,25 @@ public class UserService {
         return userMapper.toMemberDto(savedUser);
     }
 
-    public LibrarianDto addLibrarian(CreateLibrarianDto createLibrarianDto) throws UniqueFieldAlreadyExistException{
+    public LibrarianDto addLibrarian(CreateLibrarianDto createLibrarianDto) throws UniqueFieldAlreadyExistException {
+        String email = createLibrarianDto.getEmail();
+        Optional<User> isUserInRepoByEmail = userRepository.getUserByEmail(email);
+        if (isUserInRepoByEmail.isPresent()) {
+            throw new UniqueFieldAlreadyExistException("A user with this email is already created.");
+        }
+
         User savedUser = userRepository.addUser(userMapper.toLibrarian(createLibrarianDto));
         return userMapper.toLibrarianDto(savedUser);
+    }
+
+    public AdminDto addAdmin(CreateAdminDto createAdminDto) throws UniqueFieldAlreadyExistException {
+        String email = createAdminDto.getEmail();
+        Optional<User> isUserInRepoByEmail = userRepository.getUserByEmail(email);
+        if (isUserInRepoByEmail.isPresent()) {
+            throw new UniqueFieldAlreadyExistException("A user with this email is already created.");
+        }
+
+        User savedUser = userRepository.addUser(userMapper.toAdmin(createAdminDto));
+        return userMapper.toAdminDto(savedUser);
     }
 }

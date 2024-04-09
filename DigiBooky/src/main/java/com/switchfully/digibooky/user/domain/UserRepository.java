@@ -24,9 +24,6 @@ public class UserRepository {
         return users.values().stream().toList();
     }
 
-    public User getUserByEmail(String email) {
-        return null;
-    }
 
     public Optional<Member> getMemberByInss(String inss) {
         return users.values().stream()
@@ -36,10 +33,8 @@ public class UserRepository {
                 .findFirst();
     }
 
-    public Optional<Member> getMemberByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         return users.values().stream()
-                .filter(user -> user instanceof Member)
-                .map(user -> (Member) user)
                 .filter(member -> member.getEmail().equals(email))
                 .findFirst();
     }
