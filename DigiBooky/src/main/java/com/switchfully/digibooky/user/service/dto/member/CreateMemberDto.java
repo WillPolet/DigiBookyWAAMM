@@ -1,30 +1,30 @@
-package com.switchfully.digibooky.user.service.dto;
+package com.switchfully.digibooky.user.service.dto.member;
 
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
-import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
-import java.util.List;
-import java.util.UUID;
-
-public class CreateMemberDTO {
+public class CreateMemberDto {
+    @NotNull(message = "Email cannot be null.")
+    @Email(message = "Invalid email address. Please use email@domain.com.")
     private String email;
+    @NotNull(message = "Last name cannot be null.")
     private String lastname;
     private String firstname;
     private String password;
+    @Valid
     private Address address;
     private String inss;
 
-    public CreateMemberDTO(String email, String lastname, String firstname, String password, Address address, String inss) {
+    public CreateMemberDto() {}
+
+    public CreateMemberDto(String email, String lastname, String firstname, String password, Address address, String inss) {
         this.email = email;
         this.lastname = lastname;
         this.firstname = firstname;
         this.password = password;
         this.address = address;
         this.inss = inss;
-    }
-
-    public CreateMemberDTO(String email, String lastname, String password, Address address, String inss) {
-        this(email, lastname, "", password, address, inss);
     }
 
     public String getEmail() {

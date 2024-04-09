@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -50,6 +51,12 @@ public class BookRepository {
 
     public Book getBookById(String id) {
         return books.get(id);
+    }
+
+    public Optional<Book> getBookByIsbn(String isbn) {
+        return books.values().stream()
+                .filter(b -> b.getIsbn().equals(isbn))
+                .findFirst();
     }
 
     public List<Book> getAllBooks() {
