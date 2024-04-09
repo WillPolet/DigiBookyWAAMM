@@ -6,7 +6,6 @@ public class AdminDto {
     private String email;
     private String lastName;
     private String firstName;
-    private String password;
 
     public AdminDto(String id, String email, String lastName, String firstName) {
         this.id = id;
@@ -30,9 +29,4 @@ public class AdminDto {
     public String getFirstName() {
         return firstName;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
 }

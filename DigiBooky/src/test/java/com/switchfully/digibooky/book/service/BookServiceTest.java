@@ -10,6 +10,7 @@ import com.switchfully.digibooky.book.domain.BookRepository;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
+import com.switchfully.digibooky.exception.NotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +34,12 @@ class BookServiceTest {
     private static final Book BOOK3 = new Book("isbn3", "3title", "summary", true, false, AUTHOR3);
 
     private static final CreateBookDto BOOK1_CREATE_DTO = new CreateBookDto("isbn1", "title1","summary", AUTHOR1_CREATE_DTO);
-    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("isbn1", "title1", "summaryhihi", false, false,AUTHOR1_UPDATE_DTO);
+    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi", true, false,AUTHOR1_UPDATE_DTO);
     private static final String BOOK1_UPDATE_DTO_ID = "book1Id";
     private static final List<Book> BOOKS = List.of(BOOK1, BOOK2, BOOK3);
-    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.getAccessible(), BOOK1.getRented(), BOOK1.getAuthor());
-    private static final BookDto BOOK2_DTO = new BookDto(BOOK2.getId(), BOOK2.getIsbn(), BOOK2.getTitle(), BOOK2.getSummary(), BOOK2.getAccessible(), BOOK2.getRented(), BOOK2.getAuthor());
-    private static final BookDto BOOK3_DTO = new BookDto(BOOK3.getId(), BOOK3.getIsbn(), BOOK3.getTitle(), BOOK3.getSummary(), BOOK3.getAccessible(), BOOK3.getRented(), BOOK3.getAuthor());
+    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor());
+    private static final BookDto BOOK2_DTO = new BookDto(BOOK2.getId(), BOOK2.getIsbn(), BOOK2.getTitle(), BOOK2.getSummary(), BOOK2.isAvailable(), BOOK2.isLent(), BOOK2.getAuthor());
+    private static final BookDto BOOK3_DTO = new BookDto(BOOK3.getId(), BOOK3.getIsbn(), BOOK3.getTitle(), BOOK3.getSummary(), BOOK3.isAvailable(), BOOK3.isLent(), BOOK3.getAuthor());
 
     @Mock
     BookMapper bookMapper;
@@ -64,7 +65,6 @@ class BookServiceTest {
                 AUTHOR1_CREATE_DTO.getLastname())
                 .get();
 
-
         Mockito.when(bookMapper.fromDto(BOOK1_CREATE_DTO, mockedAuthor)).thenReturn(BOOK1);
 
         Mockito.when(bookRepository.addBook(BOOK1)).thenReturn(BOOK1);
@@ -73,23 +73,62 @@ class BookServiceTest {
         BookDto actualBookDto = bookService.createBook(BOOK1_CREATE_DTO);
         Assertions.assertThat(actualBookDto.getId()).isEqualTo(BOOK1.getId());
     }
-//    @Test
-//    void givenUpdateBook_whenDataAreCorrect_thenReturningBookDtoUpdated(){
-//        Mockito.when(bookRepository.doesIdExist(BOOK1_UPDATE_DTO_ID)).thenReturn(true);
-//        Mockito.when(authorRepository.getAuthorByFirstnameAndLastname(
-//                AUTHOR1_UPDATE_DTO.getFirstname(),
-//                AUTHOR1_UPDATE_DTO.getLastname()))
-//                .thenReturn(Optional.of(AUTHOR1)
-//        );
-//
-//        Author mockedAuthor = authorRepository.getAuthorByFirstnameAndLastname(
-//                AUTHOR1_UPDATE_DTO.getFirstname(),
-//                AUTHOR1_UPDATE_DTO.getLastname())
-//                .get();
-//
-//        Mockito.when(bookRepository.getIsbnById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1.getIsbn());
-//
-//    }
+
+    @Test
+    void givenUpdateBook_whenDataAreCorrect_thenReturningBookDtoUpdated(){
+        Mockito.when(bookRepository.doesIdExist(BOOK1_UPDATE_DTO_ID)).thenReturn(true);
+        Mockito.when(bookRepository.getIsbnById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1.getIsbn());
+
+        Mockito.when(authorRepository.getAuthorByFirstnameAndLastname(
+                AUTHOR1_UPDATE_DTO.getFirstname(),
+                AUTHOR1_UPDATE_DTO.getLastname()))
+                .thenReturn(Optional.of(AUTHOR1));
+
+        Author mockedAuthor = authorRepository.getAuthorByFirstnameAndLastname(
+                AUTHOR1_UPDATE_DTO.getFirstname(),
+                AUTHOR1_UPDATE_DTO.getLastname())
+                .get();
+
+        Book updatedBook = new Book(BOOK1_UPDATE_DTO_ID,
+                BOOK1_UPDATE_DTO.getIsbn(),
+                BOOK1_UPDATE_DTO.getTitle(),
+                BOOK1_UPDATE_DTO.getSummary(),
+                BOOK1_UPDATE_DTO.isAvailable(),
+                BOOK1_UPDATE_DTO.isLent(),
+                mockedAuthor);
+
+        BookDto bookDtoToReturn = new BookDto(updatedBook.getId(),
+                updatedBook.getIsbn(),
+                updatedBook.getTitle(),
+                updatedBook.getSummary(),
+                updatedBook.isAvailable(),
+                updatedBook.isLent(),
+                mockedAuthor);
+
+        Mockito.when(bookMapper.toDTO(updatedBook)).thenReturn(bookDtoToReturn);
+
+        BookDto actualBookDto = bookService.updateBook(BOOK1_UPDATE_DTO, BOOK1_UPDATE_DTO_ID);
+
+        Assertions.assertThat(actualBookDto.getId()).isEqualTo(BOOK1_UPDATE_DTO_ID);
+    }
+
+    @Test
+    void givenUpdateBook_whenIdDoesNotExist_thenReturningBookDtoUpdated(){
+        Mockito.when(bookRepository.doesIdExist(BOOK1_UPDATE_DTO_ID)).thenReturn(false);
+        Assertions.assertThatThrownBy(() -> bookService.updateBook(BOOK1_UPDATE_DTO, BOOK1_UPDATE_DTO_ID))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("Book with id " + BOOK1_UPDATE_DTO_ID + " does not exist.");
+    }
+
+    @Test
+    void givenId_whenIdExist_thenReturnBookDto(){
+        Mockito.when(bookRepository.doesIdExist(BOOK1_UPDATE_DTO_ID)).thenReturn(true);
+        Mockito.when(bookRepository.getBookById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1);
+        Mockito.when(bookMapper.toDTO(BOOK1)).thenReturn(BOOK1_DTO);
+        BookDto actualBookReturned = bookService.getBookById(BOOK1_UPDATE_DTO_ID);
+        Assertions.assertThat(actualBookReturned.getId()).isEqualTo(BOOK1.getId());
+    }
+
     @Test
     void givenTitle_whenSearchBooksWithTitleNotExisting_thenReturn0Book() {
         Mockito.when(bookRepository.getAllBooks()).thenReturn(BOOKS);

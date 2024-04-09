@@ -3,21 +3,20 @@ package com.switchfully.digibooky.user.service.dto.member;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class MemberDto {
 
     private String id;
     private String email;
-    private String lastname;
-    private String firstname;
+    private String lastName;
+    private String firstName;
     private Address address;
 
-    public MemberDto(String id, String email, String lastname, String firstname, Address address) {
+    public MemberDto(String id, String email, String lastName, String firstName, Address address) {
         this.id = id;
         this.email = email;
-        this.lastname = lastname;
-        this.firstname = firstname;
+        this.lastName = lastName;
+        this.firstName = firstName;
         this.address = address;
     }
 
@@ -29,12 +28,12 @@ public class MemberDto {
         return email;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
     public Address getAddress() {
@@ -46,11 +45,11 @@ public class MemberDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MemberDto memberDto = (MemberDto) o;
-        return Objects.equals(id, memberDto.id) && Objects.equals(email, memberDto.email) && Objects.equals(lastname, memberDto.lastname) && Objects.equals(firstname, memberDto.firstname) && Objects.equals(address, memberDto.address);
+        return Objects.equals(id, memberDto.id) && Objects.equals(email, memberDto.email) && Objects.equals(lastName, memberDto.lastName) && Objects.equals(firstName, memberDto.firstName) && Objects.equals(address, memberDto.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, lastname, firstname, address);
+        return Objects.hash(id, email, lastName, firstName, address);
     }
 }

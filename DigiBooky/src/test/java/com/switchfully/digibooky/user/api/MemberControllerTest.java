@@ -36,11 +36,55 @@ class MemberControllerTest {
     private static final CreateBookDto CREATE_BOOK1_DTO = new CreateBookDto("is1bn1", "title1", "summary", CREATE_AUTHOR1_DTO);
     private static final CreateBookDto CREATE_BOOK2_DTO = new CreateBookDto("isbn2", "title2", "summary", CREATE_AUTHOR2_DTO);
     private static final CreateBookDto CREATE_BOOK3_DTO = new CreateBookDto("isbn3", "3title", "summary", CREATE_AUTHOR3_DTO);
+    private final static CreateMemberDto CREATE_MEMBER_DTO = new CreateMemberDto("a@a.com", "lastname", "firstname", "pswd", ADDRESS, "A33");
+    private final static CreateMemberDto CREATE_MEMBER_DTO_INCORRECT_MAIL = new CreateMemberDto("a", "lastname", "firstname", "pswd", ADDRESS, "A33");
     private static final String URI = "http://localhost";
 
     @LocalServerPort
     int localPort;
 
+    @Test
+    void createMember_whenGivenCorrectMember_thenMemberCreated() {
+        //GIVEN
+        MemberDto actualMemberDto = RestAssured
+                .given()
+                .baseUri(URI)
+                .port(localPort)
+                .contentType(ContentType.JSON)
+                .body(CREATE_MEMBER_DTO)
+                .when()
+                .post("/members")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .as(MemberDto.class);
+
+        //THEN
+        Assertions.assertThat(actualMemberDto.getEmail()).isEqualTo(CREATE_MEMBER_DTO.getEmail());
+        Assertions.assertThat(actualMemberDto.getFirstName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getLastName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getId()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getStreetName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getStreetNumber()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getCity()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getZipCode()).isNotNull();
+    }
+    @Test
+    void createMember_whenGivenIncorrectMail_thenMemberNotCreated() {
+        //GIVEN
+        RestAssured
+                .given()
+                .baseUri(URI)
+                .port(localPort)
+                .contentType(ContentType.JSON)
+                .body(CREATE_MEMBER_DTO_INCORRECT_MAIL)
+                .when()
+                .post("/members")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
     @Test
     void givenMember_whenGetLentBooksByMember_thenReturnLendingsOfMember() {
         // WILL WORK ONLY WHEN LIBRARIAN CREATION IMPLEMENTED

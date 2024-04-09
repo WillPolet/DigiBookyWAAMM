@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class CreateAuthorDto {
     private String firstname;
-    @NotEmpty
+    @NotEmpty(message = "Lastname is required for author.")
     private String lastname;
 
     public CreateAuthorDto() {

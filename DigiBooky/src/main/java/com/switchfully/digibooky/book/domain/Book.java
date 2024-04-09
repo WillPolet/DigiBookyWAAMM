@@ -2,6 +2,7 @@ package com.switchfully.digibooky.book.domain;
 
 import com.switchfully.digibooky.author.domain.Author;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
@@ -9,21 +10,21 @@ public class Book {
     private String isbn;
     private String title;
     private String summary;
-    private Boolean isAccessible;
-    private Boolean isRented;
+    private Boolean available;
+    private Boolean lent;
     private Author author;
 
-    public Book(String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
-        this(UUID.randomUUID().toString(), isbn, title, summary, isAccessible, isRented, author );
+    public Book(String isbn, String title, String summary, Boolean available, Boolean lent, Author author) {
+        this(UUID.randomUUID().toString(), isbn, title, summary, available, lent, author );
     }
 
-    public Book(String id, String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
+    public Book(String id, String isbn, String title, String summary, Boolean available, Boolean lent, Author author) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.summary = summary;
-        this.isAccessible = isAccessible;
-        this.isRented = isRented;
+        this.available = available;
+        this.lent = lent;
         this.author = author;
     }
 
@@ -43,12 +44,12 @@ public class Book {
         return summary;
     }
 
-    public Boolean getAccessible() {
-        return isAccessible;
+    public Boolean isAvailable() {
+        return available;
     }
 
-    public Boolean getRented() {
-        return isRented;
+    public Boolean isLent() {
+        return lent;
     }
 
     public Author getAuthor() {
@@ -56,10 +57,23 @@ public class Book {
     }
 
     public void setAccessible(Boolean accessible) {
-        isAccessible = accessible;
+        available = accessible;
     }
 
     public void setRented(Boolean rented) {
-        isRented = rented;
+        lent = rented;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) && Objects.equals(isbn, book.isbn) && Objects.equals(title, book.title) && Objects.equals(summary, book.summary) && Objects.equals(available, book.available) && Objects.equals(lent, book.lent) && Objects.equals(author, book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn, title);
     }
 }

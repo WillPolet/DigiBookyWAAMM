@@ -3,6 +3,7 @@ package com.switchfully.digibooky.book.api;
 import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
 import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
+import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
