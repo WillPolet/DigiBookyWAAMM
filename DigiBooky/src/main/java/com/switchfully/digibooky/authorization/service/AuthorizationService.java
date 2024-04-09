@@ -3,6 +3,8 @@ package com.switchfully.digibooky.authorization.service;
 import com.switchfully.digibooky.exception.AccessForbiddenException;
 import com.switchfully.digibooky.exception.NotFoundException;
 import com.switchfully.digibooky.exception.PasswordNotMatchException;
+import com.switchfully.digibooky.lending.domain.Lending;
+import com.switchfully.digibooky.lending.domain.LendingRepository;
 import com.switchfully.digibooky.user.domain.User;
 import com.switchfully.digibooky.user.domain.UserRepository;
 import com.switchfully.digibooky.user.domain.userAttribute.EmailPassword;
@@ -10,15 +12,16 @@ import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
-import java.util.Optional;
 
 @Service
 public class AuthorizationService {
 
     UserRepository userRepository;
+    LendingRepository lendingRepository;
 
-    public AuthorizationService(UserRepository userRepository) {
+    public AuthorizationService(UserRepository userRepository, LendingRepository lendingRepository) {
         this.userRepository = userRepository;
+        this.lendingRepository = lendingRepository;
     }
 
     public void hasFeature(RoleFeature feature, String authorisation) {
@@ -34,7 +37,7 @@ public class AuthorizationService {
         }
     }
 
-    public void isSameUser(String userId, String authorization) {
+    public void isUserSameAsAuthorizationUser(String userId, String authorization) {
         EmailPassword emailPassword = getEmailPassword(authorization);
         User user = getUserByEmailPassword(emailPassword);
         if (!user.getId().equals(userId)) {
@@ -52,5 +55,14 @@ public class AuthorizationService {
     private User getUserByEmailPassword(EmailPassword emailPassword) {
         return userRepository.getUserByEmail(emailPassword.getEmail())
                 .orElseThrow(() -> new NotFoundException("Email in authorization header not found"));
+    }
+
+    public void isLendingOwnedByAuthorizationUser(String lendingId, String authorization) {
+        EmailPassword emailPassword = getEmailPassword(authorization);
+        User user = getUserByEmailPassword(emailPassword);
+        Lending lending = lendingRepository.getLendingById(lendingId).orElseThrow(() -> new NotFoundException("There is no lending for this id"));
+        if (!lending.getMember().equals(user)) {
+            throw new AccessForbiddenException("Authenticated user does not own this lending");
+        }
     }
 }

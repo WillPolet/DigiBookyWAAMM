@@ -1,8 +1,12 @@
 package com.switchfully.digibooky.authorization.service;
 
+import com.switchfully.digibooky.author.domain.Author;
+import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.exception.AccessForbiddenException;
 import com.switchfully.digibooky.exception.NotFoundException;
 import com.switchfully.digibooky.exception.PasswordNotMatchException;
+import com.switchfully.digibooky.lending.domain.Lending;
+import com.switchfully.digibooky.lending.domain.LendingRepository;
 import com.switchfully.digibooky.user.domain.*;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
 import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
@@ -21,12 +25,17 @@ import java.util.Optional;
 class AuthorizationServiceTest {
 
     private static final Address ADDRESS = new Address("streetName", "streetNumber", "zipCode", "city");
-    private static final User USER_MEMBER1 = new Member("email", "lastname", "firstname", "password", ADDRESS, "INSS");
+    private static final Member USER_MEMBER1 = new Member("email", "lastname", "firstname", "password", ADDRESS, "INSS");
     private static final User USER_MEMBER2 = new Member("email2", "lastname", "firstname", "password2", ADDRESS, "INSS");
     private static final User USER_ADMIN = new Admin("email", "lastname", "firstname", "pass");
     private static final User USER_LIBRARIAN = new Librarian("email", "lastname", "firstname", "password");
+    private static final Author AUTHOR = new Author("firstname", "lastname");
+    private static final Book BOOK1 = new Book("isbn1", "title1", "summary", true, false, AUTHOR);
+    private static final Lending LENDING1 = new Lending(USER_MEMBER1, BOOK1);
     @Mock
     UserRepository userRepository;
+    @Mock
+    LendingRepository lendingRepository;
 
     @InjectMocks
     AuthorizationService authorizationService;
@@ -72,7 +81,7 @@ class AuthorizationServiceTest {
         Mockito.when(userRepository.getUserByEmail("email")).thenReturn(Optional.of(USER_MEMBER1));
         String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
 
-        authorizationService.isSameUser(USER_MEMBER1.getId(), authorization);
+        authorizationService.isUserSameAsAuthorizationUser(USER_MEMBER1.getId(), authorization);
     }
 
     @Test
@@ -81,8 +90,29 @@ class AuthorizationServiceTest {
         String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
 
         Assertions.assertThatThrownBy(
-                        () -> authorizationService.isSameUser(USER_MEMBER2.getId(), authorization))
+                        () -> authorizationService.isUserSameAsAuthorizationUser(USER_MEMBER2.getId(), authorization))
                 .isInstanceOf(AccessForbiddenException.class)
                 .hasMessage("Authenticated user cannot lend a book for another member");
+    }
+
+    @Test
+    void givenAuthorizationHeaderAndLendingWithSameUser_whenCheckLendingOwner_thenNoException() {
+        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(Optional.of(USER_MEMBER1));
+        Mockito.when(lendingRepository.getLendingById(LENDING1.getId())).thenReturn(Optional.of(LENDING1));
+        String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
+        authorizationService.isLendingOwnedByAuthorizationUser(LENDING1.getId(), authorization);
+    }
+
+    @Test
+    void givenAuthorizationHeaderAndLendingWithDifferentUser_whenCheckLendingOwner_thenThrowException() {
+        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(Optional.of(USER_MEMBER2));
+        Mockito.when(lendingRepository.getLendingById(LENDING1.getId())).thenReturn(Optional.of(LENDING1));
+
+        String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
+
+        Assertions.assertThatThrownBy(
+                        () -> authorizationService.isLendingOwnedByAuthorizationUser(LENDING1.getId(), authorization))
+                .isInstanceOf(AccessForbiddenException.class)
+                .hasMessage("Authenticated user does not own this lending");
     }
 }

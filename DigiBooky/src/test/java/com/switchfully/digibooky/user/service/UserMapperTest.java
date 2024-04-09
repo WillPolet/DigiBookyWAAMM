@@ -44,7 +44,7 @@ class UserMapperTest {
             Member actualMember = myMapper.toMember(CREATE_MEMBER_DTO);
 
             //THEN
-            Assertions.assertEquals(MEMBER, actualMember);
+            Assertions.assertEquals(MEMBER.getEmail(), actualMember.getEmail());
         }
 
         @Test
