@@ -1,10 +1,8 @@
 package com.switchfully.digibooky.book.domain;
 
-import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +59,7 @@ public class BookRepository {
 
     public List<Book> getAllBooks() {
         return books.values().stream()
-                .filter(Book::getAccessible)
+                .filter(Book::isAvailable)
                 .collect(Collectors.toList());
     }
 }

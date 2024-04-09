@@ -29,11 +29,6 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
-//    @GetMapping(produces = "application/json")
-//    public List<BookDto> getAllBooks(){
-//        return bookService.getAllBooks();
-//    }
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json", produces = "application/json")
     public BookDto createBook(@RequestBody @Valid CreateBookDto bookDto){
@@ -41,7 +36,7 @@ public class BookController {
     }
 
     @PutMapping(consumes = "application/json", produces = "application/json", path = "/{id}")
-    public BookDto updateBook(@RequestBody UpdateBookDto bookDto, @PathVariable String id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization){
+    public BookDto updateBook(@RequestBody @Valid UpdateBookDto bookDto, @PathVariable String id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization){
         // Should put a condition if it's a librairian who try to access the route.
         authorizationService.hasFeature(RoleFeature.UPDATE_BOOK, authorization);
         return bookService.updateBook(bookDto, id);
@@ -50,7 +45,6 @@ public class BookController {
     @DeleteMapping(path = "/{id}")
     public void deleteBook(@PathVariable String id){
         bookService.deleteBook(id);
-//        return ResponseEntity.ok("The book has been successfully deleted");
     }
 
     @GetMapping
