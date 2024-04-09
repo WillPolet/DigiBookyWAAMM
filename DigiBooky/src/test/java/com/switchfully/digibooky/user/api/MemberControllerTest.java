@@ -6,9 +6,10 @@ import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.lending.service.dto.CreateLendingDto;
 import com.switchfully.digibooky.lending.service.dto.LendingDto;
 import com.switchfully.digibooky.user.domain.Librarian;
-import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.User;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
+import com.switchfully.digibooky.user.service.dto.librarian.CreateLibrarianDto;
+import com.switchfully.digibooky.user.service.dto.librarian.LibrarianDto;
 import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import io.restassured.RestAssured;
@@ -22,10 +23,13 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberControllerTest {
+    private final static CreateLibrarianDto CREATE_LIBRARIAN_DTO = new CreateLibrarianDto("a@a.com",
+            "lastname",
+            "firstname",
+            "pswd");
     private static final User USER_LIBRARIAN = new Librarian("email", "lastname", "firstname", "password");
     private static final Address ADDRESS = new Address("streetname", "streetnumber", "zipcode", "city");
     private static final CreateMemberDto CREATE_MEMBER1_DTO = new CreateMemberDto("email1@email.com", "lastname1", "firstname1", "password1", ADDRESS, "inss1");
@@ -87,8 +91,7 @@ class MemberControllerTest {
     }
     @Test
     void givenMember_whenGetLentBooksByMember_thenReturnLendingsOfMember() {
-        // WILL WORK ONLY WHEN LIBRARIAN CREATION IMPLEMENTED
-
+        createLibrarian();
         createABook(CREATE_BOOK1_DTO);
         createABook(CREATE_BOOK2_DTO);
         createABook(CREATE_BOOK3_DTO);
@@ -105,7 +108,7 @@ class MemberControllerTest {
                 .given()
                 .baseUri(URI)
                 .port(localPort)
-                .auth().preemptive().basic(USER_LIBRARIAN.getEmail(),USER_LIBRARIAN.getPassword())
+                .auth().preemptive().basic(CREATE_LIBRARIAN_DTO.getEmail(),CREATE_LIBRARIAN_DTO.getPassword())
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/members/" + memberDTO1.getId() + "/lentbooks")
@@ -118,6 +121,23 @@ class MemberControllerTest {
 
         Assertions.assertThat(lendingsByMember).containsExactlyInAnyOrder(lendingDto1, lendingDto3);
 
+    }
+
+    private void createLibrarian() {
+        LibrarianDto actualLibrarianDto = RestAssured
+                .given()
+                .baseUri(URI)
+                .port(localPort)
+                .auth().preemptive().basic("root@root.com", "rootPswd")
+                .contentType(ContentType.JSON)
+                .body(CREATE_LIBRARIAN_DTO)
+                .when()
+                .post("/librarians")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .as(LibrarianDto.class);
     }
 
     private LendingDto createLending(CreateLendingDto createLendingDto, CreateMemberDto lendingMember) {

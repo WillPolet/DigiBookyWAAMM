@@ -33,7 +33,7 @@ public class LendingService {
     public LendingDto createLending(CreateLendingDto createLendingDto) {
         Book book = bookRepository.getBookByIsbn(createLendingDto.getBookIsbn())
                 .orElseThrow(() -> new NotFoundException("There is no book with the isbn : " + createLendingDto.getBookIsbn()));
-        if (book.getRented()) {
+        if (book.isLent()) {
             throw new AlreadyLentException("The book with isbn " + book.getIsbn() + " is already lent");
         }
         User user = userRepository.getUserById(createLendingDto.getUserId())
