@@ -6,8 +6,8 @@ import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.lending.service.dto.CreateLendingDto;
 import com.switchfully.digibooky.lending.service.dto.LendingDto;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
-import com.switchfully.digibooky.user.service.dto.CreateMemberDTO;
-import com.switchfully.digibooky.user.service.dto.MemberDTO;
+import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.assertj.core.api.Assertions;
@@ -21,7 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class LendingControllerTest {
     private static final Address ADDRESS = new Address("streetname", "streetnumber", "zipcode", "city");
-    private static final CreateMemberDTO CREATE_MEMBER1_DTO = new CreateMemberDTO("email1", "lastname1", "firstname1", "password1", ADDRESS, "inss1");
+    private static final CreateMemberDto CREATE_MEMBER1_DTO = new CreateMemberDto("email1@email.com", "lastname1", "firstname1", "password1", ADDRESS, "inss1");
     private static final CreateAuthorDto CREATE_AUTHOR1_DTO = new CreateAuthorDto("first1name1", "lastname1");
     private static final CreateAuthorDto CREATE_AUTHOR2_DTO = new CreateAuthorDto("firstname2", "lastname2");
     private static final CreateAuthorDto CREATE_AUTHOR3_DTO = new CreateAuthorDto("firstname3", "3lastname3");
@@ -36,7 +36,7 @@ class LendingControllerTest {
     @Test
     void givenCreateLendingDto_whenCreateLending_thenReturnLendingDto() {
         BookDto bookDto = createABook(CREATE_BOOK1_DTO);
-        MemberDTO memberDTO = createAMember(CREATE_MEMBER1_DTO);
+        MemberDto memberDTO = createAMember(CREATE_MEMBER1_DTO);
         CreateLendingDto createLendingDto = new CreateLendingDto(CREATE_BOOK1_DTO.getIsbn(), memberDTO.getId(), null);
 
         LendingDto lendingDto = RestAssured
@@ -59,7 +59,7 @@ class LendingControllerTest {
         Assertions.assertThat(lendingDto.getReturningDate()).isNotNull();
     }
 
-    private MemberDTO createAMember(CreateMemberDTO createMemberDTO) {
+    private MemberDto createAMember(CreateMemberDto createMemberDTO) {
         return RestAssured
                 .given()
                 .baseUri(URI)
@@ -70,7 +70,7 @@ class LendingControllerTest {
                 .post("/members")
                 .then()
                 .assertThat()
-                .statusCode(HttpStatus.CREATED.value()).extract().as(MemberDTO.class);
+                .statusCode(HttpStatus.CREATED.value()).extract().as(MemberDto.class);
     }
 
     private BookDto createABook(CreateBookDto createBookDto) {

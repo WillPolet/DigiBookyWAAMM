@@ -1,22 +1,18 @@
 package com.switchfully.digibooky.lending.service.dto;
 
-import com.switchfully.digibooky.book.domain.Book;
 import com.switchfully.digibooky.book.service.dto.BookDto;
-import com.switchfully.digibooky.user.domain.Member;
-import com.switchfully.digibooky.user.service.dto.MemberDTO;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 
-import java.time.LocalDate;
 import java.util.Objects;
-import java.util.UUID;
 
 public class LendingDto {
     private String id;
-    private MemberDTO member;
+    private MemberDto member;
     private BookDto book;
     private String lendingDate;
     private String returningDate;
 
-    public LendingDto(String id, MemberDTO member, BookDto book, String lendingDate, String returningDate) {
+    public LendingDto(String id, MemberDto member, BookDto book, String lendingDate, String returningDate) {
         this.id = id;
         this.member = member;
         this.book = book;
@@ -28,7 +24,7 @@ public class LendingDto {
         return id;
     }
 
-    public MemberDTO getMember() {
+    public MemberDto getMember() {
         return member;
     }
 

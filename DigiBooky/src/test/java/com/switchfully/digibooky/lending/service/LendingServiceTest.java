@@ -14,7 +14,7 @@ import com.switchfully.digibooky.user.domain.Admin;
 import com.switchfully.digibooky.user.domain.Member;
 import com.switchfully.digibooky.user.domain.UserRepository;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
-import com.switchfully.digibooky.user.service.dto.MemberDTO;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ import java.util.Optional;
 class LendingServiceTest {
     private static final Address ADDRESS = new Address("streetname", "streetnumber", "zipcode", "city");
     private static final Member MEMBER1 = new Member("email1", "lastname1", "firstname1", "password", ADDRESS, "inss1");
-    private static final MemberDTO MEMBER1_DTO = new MemberDTO(MEMBER1.getId(), MEMBER1.getEmail(), MEMBER1.getLastname(), MEMBER1.getFirstname(), MEMBER1.getAddress());
+    private static final MemberDto MEMBER1_DTO = new MemberDto(MEMBER1.getId(), MEMBER1.getEmail(), MEMBER1.getLastname(), MEMBER1.getFirstname(), MEMBER1.getAddress());
     private static final Author AUTHOR = new Author("firstname", "lastname");
     private static final Book BOOK1 = new Book("isbn1", "title1", "summary", true, false, AUTHOR);
     private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getIsbn(), BOOK1.getSummary(), BOOK1.getAccessible(), BOOK1.getRented(), BOOK1.getAuthor());
