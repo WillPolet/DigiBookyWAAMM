@@ -32,7 +32,7 @@ class LendingServiceTest {
     private static final MemberDto MEMBER1_DTO = new MemberDto(MEMBER1.getId(), MEMBER1.getEmail(), MEMBER1.getLastname(), MEMBER1.getFirstname(), MEMBER1.getAddress());
     private static final Author AUTHOR = new Author("firstname", "lastname");
     private static final Book BOOK1 = new Book("isbn1", "title1", "summary", true, false, AUTHOR);
-    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getIsbn(), BOOK1.getSummary(), BOOK1.getAccessible(), BOOK1.getRented(), BOOK1.getAuthor());
+    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getIsbn(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor());
     private static final CreateLendingDto CREATE_LENDING1_DTO = new CreateLendingDto("isbn1", "userid1", null);
     private static final Lending LENDING1 = new Lending(MEMBER1, BOOK1);
     public static final LendingDto LENDING1_DTO = new LendingDto(LENDING1.getId(), MEMBER1_DTO, BOOK1_DTO, LENDING1.getLendingDate().toString(), LENDING1.getReturningDate().toString());

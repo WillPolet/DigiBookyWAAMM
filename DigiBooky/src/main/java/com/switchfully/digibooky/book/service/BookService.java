@@ -44,15 +44,28 @@ public class BookService {
         if (!bookRepository.doesIdExist(id)) {
             throw new NotFoundException("Book with id " + id + " does not exist.");
         }
+
         // Call author service to check if author exist if not create it and add it to the authorRepository
         Author authorFromUpdateBook = getExistingAuthorOrCreateIt(updateBookDto.getAuthor());
-        // get isbn based on ID
+        // get isbn (in DB) based on ID
+
         String isbn = bookRepository.getIsbnById(id);
-//        if (!isbn.equals(updateBookDto.getIsbn()))
-        Book book = new Book(id, isbn, updateBookDto.getTitle(), updateBookDto.getSummary(), updateBookDto.getAccessible(), updateBookDto.getRented(), authorFromUpdateBook);
+
+        if (!isbn.equals(updateBookDto.getIsbn())){
+            throw new NotFoundException("The isbn provided and of book " + id + " doesn't match.");
+        }
+
+        Book book = new Book(id, updateBookDto.getIsbn(),
+                updateBookDto.getTitle(),
+                updateBookDto.getSummary(),
+                updateBookDto.isAvailable(),
+                updateBookDto.isLent(),
+                authorFromUpdateBook);
+
         bookRepository.updateBook(book, id);
         return bookMapper.toDTO(book);
     }
+
     private Author getExistingAuthorOrCreateIt(CreateAuthorDto createAuthorDto) {
         return authorRepository
                 .getAuthorByFirstnameAndLastname(
@@ -82,9 +95,6 @@ public class BookService {
         return bookMapper.toDTO(bookRepository.getBookById(id));
     }
 
-//    public List<BookDto> getAllBooks() {
-//        return bookMapper.toDTO(bookRepository.getAllBooks());
-//    }
     public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {
         Collection<Book> books = bookRepository.getAllBooks();
         if (title != null) {
