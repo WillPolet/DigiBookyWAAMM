@@ -58,7 +58,7 @@ class AuthorServiceTest {
     void givenFirstname_whenSearchAuthorWithWildcardFirstname_thenReturnMatchedAuthor() {
         Mockito.when(authorRepository.getAuthors()).thenReturn(AUTHORS);
         Mockito.when(authorMapper.toDTO(List.of(AUTHOR1, AUTHOR2, AUTHOR3))).thenReturn(List.of(AUTHOR1_DTO, AUTHOR2_DTO, AUTHOR3_DTO));
-        Assertions.assertThat(authorService.searchAuthorsByFirstname("firstname")).containsExactlyInAnyOrder(AUTHOR1_DTO, AUTHOR2_DTO, AUTHOR3_DTO);
+        Assertions.assertThat(authorService.searchAuthorsByFirstname("*firstname*")).containsExactlyInAnyOrder(AUTHOR1_DTO, AUTHOR2_DTO, AUTHOR3_DTO);
     }
 
     @Test
@@ -79,7 +79,7 @@ class AuthorServiceTest {
     void givenLastname_whenSearchAuthorWithWildcardLastname_thenReturnMatchedAuthor() {
         Mockito.when(authorRepository.getAuthors()).thenReturn(AUTHORS);
         Mockito.when(authorMapper.toDTO(List.of(AUTHOR2, AUTHOR3))).thenReturn(List.of(AUTHOR2_DTO, AUTHOR3_DTO));
-        Assertions.assertThat(authorService.searchAuthorsByLastname("lastname")).containsExactlyInAnyOrder(AUTHOR2_DTO, AUTHOR3_DTO);
+        Assertions.assertThat(authorService.searchAuthorsByLastname("lastname*")).containsExactlyInAnyOrder(AUTHOR2_DTO, AUTHOR3_DTO);
     }
 
     @Test
@@ -107,6 +107,6 @@ class AuthorServiceTest {
     void givenFirstnameAndLastname_whenSearchAuthorFirstnameAndLastname_thenReturnAuthors() {
         Mockito.when(authorRepository.getAuthors()).thenReturn(AUTHORS);
         Mockito.when(authorMapper.toDTO(List.of(AUTHOR2, AUTHOR3))).thenReturn(List.of(AUTHOR2_DTO, AUTHOR3_DTO));
-        Assertions.assertThat(authorService.searchAuthorsByFirstnameAndLastname("firstname", "lastname")).containsExactlyInAnyOrder(AUTHOR2_DTO, AUTHOR3_DTO);
+        Assertions.assertThat(authorService.searchAuthorsByFirstnameAndLastname("*firstname*", "lastname*")).containsExactlyInAnyOrder(AUTHOR2_DTO, AUTHOR3_DTO);
     }
 }

@@ -19,21 +19,21 @@ class SearchBookUtilityTest {
 
     @Test
     void givenTitle_whenSearchByTitle_thenReturnAuthor() {
-        Assertions.assertThat(SearchBookUtility.getBooksByTitleWithWildcard(BOOKS, "title")).containsExactlyInAnyOrder(BOOK1, BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByTitleWithWildcard(BOOKS, "*title*")).containsExactlyInAnyOrder(BOOK1, BOOK2, BOOK3);
     }
 
     @Test
     void givenIsbn_whenSearchByIsbn_thenReturnAuthor() {
-        Assertions.assertThat(SearchBookUtility.getBooksByIsbnWithWildcard(BOOKS, "isbn")).containsExactlyInAnyOrder(BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByIsbnWithWildcard(BOOKS, "isbn*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
     }
 
     @Test
     void givenAuthorFirstname_whenSearchByAuthorFirstname_thenReturnAuthor() {
-        Assertions.assertThat(SearchBookUtility.getBooksByAuthorFirstnameWithWildcard(BOOKS, "firstname")).containsExactlyInAnyOrder(BOOK1, BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByAuthorFirstnameWithWildcard(BOOKS, "*firstname*")).containsExactlyInAnyOrder(BOOK1, BOOK2, BOOK3);
     }
 
     @Test
     void givenAuthorLastname_whenSearchByAuthorLastname_thenReturnAuthor() {
-        Assertions.assertThat(SearchBookUtility.getBooksByAuthorLastnameWithWildcard(BOOKS, "lastname")).containsExactlyInAnyOrder(BOOK2, BOOK3);
+        Assertions.assertThat(SearchBookUtility.getBooksByAuthorLastnameWithWildcard(BOOKS, "lastname*")).containsExactlyInAnyOrder(BOOK2, BOOK3);
     }
 }
