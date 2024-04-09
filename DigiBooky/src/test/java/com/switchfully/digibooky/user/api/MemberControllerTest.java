@@ -30,7 +30,7 @@ class MemberControllerTest {
     int localPort;
 
     @Test
-    void createMember_whenGivenCorrect_thenMemberCreated() {
+    void createMember_whenGivenCorrectMember_thenMemberCreated() {
         //GIVEN
         MemberDto actualMemberDto = RestAssured
                 .given()
@@ -46,12 +46,18 @@ class MemberControllerTest {
                 .extract()
                 .as(MemberDto.class);
 
-        //WHEN
         //THEN
         Assertions.assertThat(actualMemberDto.getEmail()).isEqualTo(CREATE_MEMBER_DTO.getEmail());
+        Assertions.assertThat(actualMemberDto.getFirstName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getLastName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getId()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getStreetName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getStreetNumber()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getCity()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getAddress().getZipCode()).isNotNull();
     }
     @Test
-    void createMember_whenGivenIncorrectMail_thenMemberCreated() {
+    void createMember_whenGivenIncorrectMail_thenMemberNotCreated() {
         //GIVEN
         RestAssured
                 .given()

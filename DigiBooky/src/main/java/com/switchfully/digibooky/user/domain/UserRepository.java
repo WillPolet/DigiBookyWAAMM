@@ -16,6 +16,8 @@ public class UserRepository {
 
     public UserRepository() {
         this.users = new ConcurrentHashMap<>();
+        Admin adminRoot = new Admin("root@root.com", "rootLastName", "rootFirstName", "rootPswd");
+        users.put(adminRoot.getId(), adminRoot);
     }
 
     public User addUser(User newUser) {
