@@ -33,9 +33,9 @@ public class BookService {
         this.authorMapper = authorMapper;
     }
 
-    public BookDto createBook(CreateBookDto bookDto) {
-        Author author = getExistingAuthorOrCreateIt(bookDto.getAuthor());
-        Book book = bookMapper.fromDto(bookDto, author);
+    public BookDto createBook(CreateBookDto createBookDto) {
+        Author author = getExistingAuthorOrCreateIt(createBookDto.getAuthor());
+        Book book = bookMapper.fromDto(createBookDto, author);
         return bookMapper.toDTO(bookRepository.addBook(book));
     }
 

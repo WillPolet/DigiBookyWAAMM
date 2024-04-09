@@ -26,10 +26,11 @@ public class BookServiceTestIntegration {
     private static final Author AUTHOR1 = new Author("firstname1", "lastname1");
     private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", true, false, AUTHOR1);
     private static final CreateAuthorDto AUTHOR1_CREATE_DTO = new CreateAuthorDto("firstname1", "lastname1");
-    private static final UpdateAuthorDto AUTHOR1_UPDATE_DTO = new UpdateAuthorDto("id1", "firstname1", "lastname1");
+    private static final UpdateAuthorDto AUTHOR1_UPDATE_DTO = new UpdateAuthorDto("firstname1", "lastname1");
     private static final CreateBookDto BOOK1_CREATE_DTO = new CreateBookDto("isbn1", "title1","summary", AUTHOR1_CREATE_DTO);
     private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi", true, false,AUTHOR1_UPDATE_DTO);
     private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor());
+
 
     @Test
     void givenCorrectData_CreatingBook_WillRetrunBookDTO(){
@@ -55,5 +56,13 @@ public class BookServiceTestIntegration {
         bookRepository.addBook(BOOK1);
         bookService.deleteBook(BOOK1.getId());
         Assertions.assertThat(BOOK1).isEqualTo(unavailableBook1);
+    }
+
+    @Test
+    void givenId_FindBookById_WillGetTheAppropriateBook(){
+        String id = BOOK1.getId();
+        bookRepository.addBook(BOOK1);
+        BookDto actual = bookService.getBookById(BOOK1.getId());
+        Assertions.assertThat(actual.getId()).isEqualTo(id );
     }
 }

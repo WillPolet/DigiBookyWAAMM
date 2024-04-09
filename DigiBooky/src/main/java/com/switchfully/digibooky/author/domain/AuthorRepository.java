@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.author.domain;
 
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class AuthorRepository {
 
     public Optional<Author> getAuthorByFirstnameAndLastname(String firstname, String lastname) {
         return authors.values().stream()
-                .filter(a -> a.getFirstname().equals(firstname)
+                .filter(a -> StringUtils.compare(a.getFirstname(), firstname) == 0
                         && a.getLastname().equals(lastname))
                 .findFirst();
     }

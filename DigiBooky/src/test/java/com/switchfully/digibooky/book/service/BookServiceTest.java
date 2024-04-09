@@ -28,7 +28,7 @@ class BookServiceTest {
     private static final Author AUTHOR2 = new Author("firstname2", "lastname2");
     private static final Author AUTHOR3 = new Author("firstname3", "lastname3");
     private static final CreateAuthorDto AUTHOR1_CREATE_DTO = new CreateAuthorDto("firstname1", "lastname1");
-    private static final UpdateAuthorDto AUTHOR1_UPDATE_DTO = new UpdateAuthorDto("id1", "firstname1", "lastname1");
+    private static final UpdateAuthorDto AUTHOR1_UPDATE_DTO = new UpdateAuthorDto("firstname1", "lastname1");
     private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", true, false, AUTHOR1);
     private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", true, false, AUTHOR2);
     private static final Book BOOK3 = new Book("isbn3", "3title", "summary", true, false, AUTHOR3);
