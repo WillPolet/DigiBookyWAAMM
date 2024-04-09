@@ -21,7 +21,7 @@ public class MemberController {
         this.userService = userService;
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public MemberDto createMember(@RequestBody @Valid CreateMemberDto createMemberDTO){
         return userService.addMember(createMemberDTO);

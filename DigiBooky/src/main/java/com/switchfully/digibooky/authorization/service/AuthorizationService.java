@@ -23,18 +23,22 @@ public class AuthorizationService {
 
     public void hasFeature(RoleFeature feature, String authorisation) {
         EmailPassword emailPassword = getEmailPassword(authorisation);
-        Optional<User> user = userRepository.getUserByEmail(emailPassword.getEmail());
+        User user = getUserByEmailPassword(emailPassword);
 
-        if (user.isEmpty()) {
-            throw new NotFoundException("Email in authorization header not found");
-        }
-
-        if (!user.get().passwordMatch(emailPassword.getPassword())) {
+        if (!user.passwordMatch(emailPassword.getPassword())) {
             throw new PasswordNotMatchException("Email/password in authorization header doesn't match");
         }
 
-        if (!user.get().hasFeature(feature)) {
+        if (!user.hasFeature(feature)) {
             throw new AccessForbiddenException("Authenticated user have no access to this feature");
+        }
+    }
+
+    public void isSameUser(String userId, String authorization) {
+        EmailPassword emailPassword = getEmailPassword(authorization);
+        User user = getUserByEmailPassword(emailPassword);
+        if (!user.getId().equals(userId)) {
+            throw new AccessForbiddenException("Authenticated user cannot lend a book for another member");
         }
     }
 
@@ -43,5 +47,10 @@ public class AuthorizationService {
         String email = decodedEmailAndPassword.substring(0, decodedEmailAndPassword.indexOf(":"));
         String password = decodedEmailAndPassword.substring(decodedEmailAndPassword.indexOf(":") + 1);
         return new EmailPassword(email, password);
+    }
+
+    private User getUserByEmailPassword(EmailPassword emailPassword) {
+        return userRepository.getUserByEmail(emailPassword.getEmail())
+                .orElseThrow(() -> new NotFoundException("Email in authorization header not found"));
     }
 }
