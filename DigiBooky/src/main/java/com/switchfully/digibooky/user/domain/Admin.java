@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Admin extends User { public Admin(String email, String lastName, String firstName, String password) {
-        super(UUID.randomUUID(),
+        super(UUID.randomUUID().toString(),
                 email,
                 lastName,
                 firstName,

@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Base64;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class AuthorizationServiceTest {
@@ -40,7 +41,7 @@ class AuthorizationServiceTest {
 
     @Test
     void givenAuthorizationHeaderWithExistingMemberWithBadPassword_whenAccessFeature_thenThrowException() {
-        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(USER_ADMIN);
+        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(Optional.of(USER_ADMIN));
         String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
         Assertions.assertThatThrownBy(
                         () -> authorizationService.hasFeature(RoleFeature.DELETE_BOOK, authorization))
@@ -50,7 +51,7 @@ class AuthorizationServiceTest {
 
     @Test
     void givenAuthorizationHeaderWithExistingMemberWithoutFeature_whenAccessFeature_thenThrowException() {
-        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(USER_MEMBER);
+        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(Optional.of(USER_MEMBER));
         String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
         Assertions.assertThatThrownBy(
                         () -> authorizationService.hasFeature(RoleFeature.DELETE_BOOK, authorization))
@@ -60,7 +61,7 @@ class AuthorizationServiceTest {
 
     @Test
     void givenAuthorizationHeaderWithExistingMemberWithFeature_whenAccessFeature_thenNoException() {
-        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(USER_LIBRARIAN);
+        Mockito.when(userRepository.getUserByEmail("email")).thenReturn(Optional.of(USER_LIBRARIAN));
         String authorization = "Basic " + Base64.getEncoder().encodeToString("email:password".getBytes());
         authorizationService.hasFeature(RoleFeature.DELETE_BOOK, authorization);
     }

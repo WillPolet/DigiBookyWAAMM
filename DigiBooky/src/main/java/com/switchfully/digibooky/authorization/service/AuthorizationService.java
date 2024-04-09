@@ -10,6 +10,7 @@ import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
+import java.util.Optional;
 
 @Service
 public class AuthorizationService {
@@ -22,17 +23,17 @@ public class AuthorizationService {
 
     public void hasFeature(RoleFeature feature, String authorisation) {
         EmailPassword emailPassword = getEmailPassword(authorisation);
-        User user = userRepository.getUserByEmail(emailPassword.getEmail());
+        Optional<User> user = userRepository.getUserByEmail(emailPassword.getEmail());
 
-        if (user == null) {
+        if (user.isEmpty()) {
             throw new NotFoundException("Email in authorization header not found");
         }
 
-        if (!user.passwordMatch(emailPassword.getPassword())) {
+        if (!user.get().passwordMatch(emailPassword.getPassword())) {
             throw new PasswordNotMatchException("Email/password in authorization header doesn't match");
         }
 
-        if (!user.hasFeature(feature)) {
+        if (!user.get().hasFeature(feature)) {
             throw new AccessForbiddenException("Authenticated user have no access to this feature");
         }
     }

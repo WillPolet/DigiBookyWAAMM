@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Librarian extends User {
     public Librarian(String email, String lastName, String firstName, String password) {
-        super(UUID.randomUUID(),
+        super(UUID.randomUUID().toString(),
                 email,
                 lastName,
                 firstName,

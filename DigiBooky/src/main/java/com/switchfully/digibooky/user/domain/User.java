@@ -1,21 +1,19 @@
 package com.switchfully.digibooky.user.domain;
 
-import com.switchfully.digibooky.user.domain.userAttribute.Address;
 import com.switchfully.digibooky.user.domain.userAttribute.RoleFeature;
-import com.switchfully.digibooky.user.domain.userAttribute.UserRole;
 
 import java.util.List;
 import java.util.UUID;
 
 public abstract class User {
-    private UUID id;
+    private String id;
     private String email;
     private String lastname;
     private String firstname;
     private String password;
     private List<RoleFeature> roleFeatures;
 
-    public User(UUID id, String email, String lastname, String firstname, String password, List<RoleFeature> roleFeatures) {
+    public User(String id, String email, String lastname, String firstname, String password, List<RoleFeature> roleFeatures) {
         this.id = id;
         this.email = email;
         this.lastname = lastname;
@@ -31,7 +29,7 @@ public abstract class User {
         return password.equals(pwd);
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
