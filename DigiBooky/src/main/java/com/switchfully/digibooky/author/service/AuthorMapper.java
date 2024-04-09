@@ -3,6 +3,7 @@ package com.switchfully.digibooky.author.service;
 import com.switchfully.digibooky.author.domain.Author;
 import com.switchfully.digibooky.author.service.dto.AuthorDto;
 import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
+import com.switchfully.digibooky.author.service.dto.UpdateAuthorDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -23,5 +24,10 @@ public class AuthorMapper {
 
     public Author fromDto(CreateAuthorDto createAuthorDto) {
         return new Author(createAuthorDto.getFirstname(), createAuthorDto.getLastname());
+    }
+
+
+    public Author fromDto(UpdateAuthorDto updateAuthorDto) {
+        return new Author(updateAuthorDto.getFirstname(), updateAuthorDto.getLastname());
     }
 }

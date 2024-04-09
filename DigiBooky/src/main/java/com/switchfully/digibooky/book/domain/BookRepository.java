@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.book.domain;
 
+import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Repository;
 

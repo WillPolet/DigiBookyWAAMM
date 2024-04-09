@@ -6,15 +6,19 @@ import java.util.UUID;
 
 public class Book {
     private final String id;
-    private final String isbn;
-    private final String title;
-    private final String summary;
+    private String isbn;
+    private String title;
+    private String summary;
     private Boolean isAccessible;
     private Boolean isRented;
-    private final Author author;
+    private Author author;
 
     public Book(String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
-        this.id = UUID.randomUUID().toString();
+        this(UUID.randomUUID().toString(), isbn, title, summary, isAccessible, isRented, author );
+    }
+
+    public Book(String id, String isbn, String title, String summary, Boolean isAccessible, Boolean isRented, Author author) {
+        this.id = id;
         this.isbn = isbn;
         this.title = title;
         this.summary = summary;
@@ -53,5 +57,9 @@ public class Book {
 
     public void setAccessible(Boolean accessible) {
         isAccessible = accessible;
+    }
+
+    public void setRented(Boolean rented) {
+        isRented = rented;
     }
 }

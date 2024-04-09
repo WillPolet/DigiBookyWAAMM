@@ -4,6 +4,7 @@ import com.switchfully.digibooky.author.domain.Author;
 import com.switchfully.digibooky.author.domain.AuthorRepository;
 import com.switchfully.digibooky.author.service.dto.AuthorDto;
 import com.switchfully.digibooky.author.service.dto.CreateAuthorDto;
+import com.switchfully.digibooky.exception.NotFoundException;
 import com.switchfully.digibooky.utility.PatternUtility;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,14 @@ public class AuthorService {
 
     public List<AuthorDto> getAuthors() {
         return authorMapper.toDTO(authorRepository.getAuthors());
+    }
+
+    public AuthorDto getAuthorById(String id){
+        Author authorToReturn =  authorRepository.getAuthors().stream()
+                .filter(author -> author.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(""));
+
+        return authorMapper.toDTO(authorToReturn);
     }
 }
