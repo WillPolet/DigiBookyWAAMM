@@ -8,26 +8,26 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public class CreateBookDto {
-        @NotEmpty
+        @NotEmpty(message = "isbn is required for creation.")
         private String isbn;
-        @NotEmpty
+        @NotEmpty(message = "Title is required for creation.")
         private String title;
         private String summary;
-        private Boolean isAccessible;
-        private Boolean isRented;
+        private Boolean available;
+        private Boolean lent;
         @Valid
         private CreateAuthorDto author;
 
-    public CreateBookDto() {
-        // JACKSON
-    }
+//    public CreateBookDto() {
+//        // JACKSON
+//    }
 
     public CreateBookDto(String isbn, String title, String summary, CreateAuthorDto author) {
             this.isbn = isbn;
             this.title = title;
             this.summary = summary;
-            this.isAccessible = true;
-            this.isRented = false;
+            this.available = true;
+            this.lent = false;
             this.author = author;
     }
 
@@ -44,12 +44,12 @@ public class CreateBookDto {
         return summary;
     }
 
-    public Boolean getIsAccessible() {
-        return isAccessible;
+    public Boolean isAvailable() {
+        return available;
     }
 
-    public Boolean getIsRented() {
-        return isRented;
+    public Boolean isLent() {
+        return lent;
     }
 
     public CreateAuthorDto getAuthor() {

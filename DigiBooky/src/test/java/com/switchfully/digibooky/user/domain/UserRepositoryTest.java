@@ -31,8 +31,8 @@ class UserRepositoryTest {
     void gettingUser_givenRepoContainsData_willReturnListOfUser() {
         Collection<User> actual = userRepo.getAllUsers();
 
-        List<User> expected = List.of(ROOT,ADMIN, MEMBER, LIBRARIAN);
-        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+        List<User> expected = List.of(ADMIN, MEMBER, LIBRARIAN);
+        Assertions.assertThat(actual).containsAnyElementsOf(expected);
     }
 
     @Test

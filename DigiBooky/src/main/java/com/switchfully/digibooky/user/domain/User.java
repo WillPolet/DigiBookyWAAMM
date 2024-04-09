@@ -57,13 +57,14 @@ public abstract class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getLastname(), user.getLastname()) && Objects.equals(getFirstname(), user.getFirstname());
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(lastname, user.lastname) && Objects.equals(firstname, user.firstname) && Objects.equals(password, user.password) && Objects.equals(roleFeatures, user.roleFeatures);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getEmail(), getLastname(), getFirstname());
+        return Objects.hash(id, email, lastname, firstname, password, roleFeatures);
     }
 }
 

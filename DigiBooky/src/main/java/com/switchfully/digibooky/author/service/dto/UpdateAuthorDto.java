@@ -1,18 +1,17 @@
 package com.switchfully.digibooky.author.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotEmpty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateAuthorDto {
-    private final String id;
     private final String firstname;
+    @NotEmpty(message = "Lastname is required to update an author")
     private final String lastname;
 
-    public UpdateAuthorDto(String id, String firstname, String lastname) {
-        this.id = id;
+    public UpdateAuthorDto(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getFirstname() {

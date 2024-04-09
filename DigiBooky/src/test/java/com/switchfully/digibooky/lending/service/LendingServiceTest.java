@@ -23,6 +23,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,10 +34,12 @@ class LendingServiceTest {
     private static final MemberDto MEMBER1_DTO = new MemberDto(MEMBER1.getId(), MEMBER1.getEmail(), MEMBER1.getLastname(), MEMBER1.getFirstname(), MEMBER1.getAddress());
     private static final Author AUTHOR = new Author("firstname", "lastname");
     private static final Book BOOK1 = new Book("isbn1", "title1", "summary", true, false, AUTHOR);
-    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getIsbn(), BOOK1.getSummary(), BOOK1.getAccessible(), BOOK1.getRented(), BOOK1.getAuthor());
+    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getIsbn(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor());
     private static final CreateLendingDto CREATE_LENDING1_DTO = new CreateLendingDto("isbn1", "userid1", null);
     private static final Lending LENDING1 = new Lending(MEMBER1, BOOK1);
     public static final LendingDto LENDING1_DTO = new LendingDto(LENDING1.getId(), MEMBER1_DTO, BOOK1_DTO, LENDING1.getLendingDate().toString(), LENDING1.getReturningDate().toString());
+    private static final Lending LENDING2 = new Lending(MEMBER1, BOOK1, LocalDate.now().minusWeeks(1));
+    public static final LendingDto LENDING2_DTO = new LendingDto(LENDING2.getId(), MEMBER1_DTO, BOOK1_DTO, LENDING2.getLendingDate().toString(), LENDING2.getReturningDate().toString());
     private static final Admin ADMIN1 = new Admin("email1", "lastname1", "firstname1", "password");
 
     @Mock
@@ -87,5 +91,32 @@ class LendingServiceTest {
         Assertions.assertThatThrownBy(() -> lendingService.createLending(CREATE_LENDING1_DTO))
                 .isInstanceOf(AccessForbiddenException.class)
                 .hasMessage("This user cannot lend a book");
+    }
+
+    @Test
+    void givenLending_whenReturningDateOnTime_thenReturnOkMessage() {
+        Mockito.when(lendingRepository.getLendingById(LENDING1.getId())).thenReturn(Optional.of(LENDING1));
+        Assertions.assertThat(lendingService.returnBook(LENDING1.getId())).isEqualTo("You returned the book with isbn " + LENDING1.getBook().getIsbn());
+    }
+
+    @Test
+    void givenLending_whenLateReturningDate_thenReturnLateMessage() {
+        Mockito.when(lendingRepository.getLendingById(LENDING2.getId())).thenReturn(Optional.of(LENDING2));
+        Assertions.assertThat(lendingService.returnBook(LENDING2.getId())).isEqualTo("You returned the book with isbn " + LENDING2.getBook().getIsbn() + " late (returning date was " + LENDING2.getReturningDate() + ")");
+    }
+
+    @Test
+    void givenLendings_whenGetOverdueLendings_thenReturnOverdueLendings() {
+        Mockito.when(lendingRepository.getOverdueLendings()).thenReturn(List.of(LENDING2));
+        Mockito.when(lendingMapper.toDto(List.of(LENDING2))).thenReturn(List.of(LENDING2_DTO));
+        Assertions.assertThat(lendingService.getOverdueLendings()).containsExactlyInAnyOrder(LENDING2_DTO);
+    }
+
+    @Test
+    void givenMember_whenGetLendingsByMember_thenReturnMemberLendings() {
+        Mockito.when(userRepository.getUserById(MEMBER1.getId())).thenReturn(Optional.of(MEMBER1));
+        Mockito.when(lendingRepository.getLendingsByMember(MEMBER1)).thenReturn(List.of(LENDING1, LENDING2));
+        Mockito.when(lendingMapper.toDto(List.of(LENDING1, LENDING2))).thenReturn(List.of(LENDING1_DTO, LENDING2_DTO));
+        Assertions.assertThat(lendingService.getLendingsByMember(MEMBER1.getId())).containsExactlyInAnyOrder(LENDING1_DTO, LENDING2_DTO);
     }
 }

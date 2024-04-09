@@ -44,8 +44,9 @@ public class Member extends User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Member member)) return false;
-        return Objects.equals(getAddress(), member.getAddress()) && Objects.equals(getInss(), member.getInss());
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return super.equals(o) && Objects.equals(address, member.address) && Objects.equals(inss, member.inss);
     }
 
     @Override
