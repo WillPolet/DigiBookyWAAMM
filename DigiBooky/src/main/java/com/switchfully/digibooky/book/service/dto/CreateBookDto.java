@@ -18,9 +18,9 @@ public class CreateBookDto {
         @Valid
         private CreateAuthorDto author;
 
-    public CreateBookDto() {
-        // JACKSON
-    }
+//    public CreateBookDto() {
+//        // JACKSON
+//    }
 
     public CreateBookDto(String isbn, String title, String summary, CreateAuthorDto author) {
             this.isbn = isbn;

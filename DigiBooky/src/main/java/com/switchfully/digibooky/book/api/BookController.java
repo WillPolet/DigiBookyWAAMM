@@ -43,7 +43,8 @@ public class BookController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteBook(@PathVariable String id){
+    public void deleteBook(@PathVariable String id, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization){
+        authorizationService.hasFeature(RoleFeature.DELETE_BOOK, authorization);
         bookService.deleteBook(id);
     }
 
@@ -51,4 +52,6 @@ public class BookController {
     public List<BookDto> getBooks(@RequestParam(required = false) String title, @RequestParam(required = false) String isbn, @RequestParam(required = false) String authorFirstname, @RequestParam(required = false) String authorLastname) {
         return bookService.searchBooks(title, isbn, authorFirstname, authorLastname);
     }
+
+
 }
