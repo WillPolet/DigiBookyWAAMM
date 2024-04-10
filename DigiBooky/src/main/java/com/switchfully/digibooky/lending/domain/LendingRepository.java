@@ -32,4 +32,10 @@ public class LendingRepository {
                 .filter(l -> l.isActive() && l.getReturningDate().isBefore(LocalDate.now()))
                 .toList();
     }
+
+    public Optional<Lending> getLendingByBookId(String bookId) {
+        return lendings.values().stream()
+                .filter(l -> l.getBook().getId().equals(bookId))
+                .findFirst();
+    }
 }

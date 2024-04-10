@@ -60,8 +60,8 @@ public class Book {
         available = accessible;
     }
 
-    public void setRented(Boolean rented) {
-        lent = rented;
+    public void setLent(Boolean lent) {
+        this.lent = lent;
     }
 
     @Override

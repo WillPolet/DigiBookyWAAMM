@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.user.service;
 
+import com.switchfully.digibooky.exception.WrongEntityException;
 import com.switchfully.digibooky.user.domain.Admin;
 import com.switchfully.digibooky.user.domain.Librarian;
 import com.switchfully.digibooky.user.domain.Member;
@@ -31,7 +32,7 @@ public class UserMapper {
 
     public MemberDto toMemberDto(User savedUser) {
         if (!(savedUser instanceof Member)) {
-            throw new IllegalArgumentException("Implement me");
+            throw new WrongEntityException("Error server : User is not a member");
         }
         Member memberToConvert = (Member) savedUser;
 
@@ -49,8 +50,9 @@ public class UserMapper {
 
     public LibrarianDto toLibrarianDto(User savedUser) {
         if (!(savedUser instanceof Librarian)) {
-            throw new IllegalArgumentException("Implement me");
+            throw new WrongEntityException("Error server : User is not a librarian");
         }
+
         Librarian librarianToConvert = (Librarian) savedUser;
         return new LibrarianDto(
                 librarianToConvert.getId(),
@@ -69,8 +71,9 @@ public class UserMapper {
 
     public AdminDto toAdminDto(User savedUser) {
         if (!(savedUser instanceof Admin)) {
-            throw new IllegalArgumentException("Implement me");
+            throw new WrongEntityException("Error server : User is not an admin");
         }
+
         Admin adminToConvert = (Admin) savedUser;
         return new AdminDto(
                 adminToConvert.getId(),

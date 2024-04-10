@@ -12,10 +12,14 @@ import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.book.service.utility.SearchBookUtility;
 import com.switchfully.digibooky.exception.NotFoundException;
+import com.switchfully.digibooky.lending.domain.Lending;
+import com.switchfully.digibooky.lending.domain.LendingRepository;
+import com.switchfully.digibooky.lending.service.LendingService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -24,13 +28,15 @@ public class BookService {
     private final BookMapper bookMapper;
     private final AuthorMapper authorMapper;
     private final AuthorRepository authorRepository;
+    private final LendingRepository lendingRepository;
 
 
-    public BookService(BookRepository bookRepository, BookMapper bookMapper, AuthorRepository authorRepository, AuthorMapper authorMapper) {
+    public BookService(BookRepository bookRepository, BookMapper bookMapper, AuthorRepository authorRepository, AuthorMapper authorMapper, LendingRepository lendingRepository) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
+        this.lendingRepository = lendingRepository;
     }
 
     public BookDto createBook(CreateBookDto createBookDto) {
@@ -94,7 +100,12 @@ public class BookService {
         if (!bookRepository.doesIdExist(id)) {
             throw new NotFoundException("Book with id " + id + " does not exist");
         }
-        return bookMapper.toDTO(bookRepository.getBookById(id));
+        Book book = bookRepository.getBookById(id);
+        Optional<Lending> optLending = lendingRepository.getLendingByBookId(id);
+        if (optLending.isPresent()) {
+            return bookMapper.toDTO(book, optLending.get().getMember());
+        }
+        return bookMapper.toDTO(book);
     }
 
     public List<BookDto> searchBooks(String title, String isbn, String authorFirstname, String authorLastname) {

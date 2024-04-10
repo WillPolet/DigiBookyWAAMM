@@ -1,7 +1,11 @@
 package com.switchfully.digibooky.lending.service.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class CreateLendingDto {
+    @NotEmpty(message = "Isbn required to lend a book.")
     private String bookIsbn;
+    @NotEmpty(message = "User id required to lend a book.")
     private String userId;
     private String returningDate;
 
