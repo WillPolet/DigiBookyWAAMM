@@ -1,6 +1,5 @@
 package com.switchfully.digibooky.user.service;
 
-import com.switchfully.digibooky.user.domain.Librarian;
 import com.switchfully.digibooky.user.domain.UserRepository;
 import com.switchfully.digibooky.user.domain.userAttribute.Address;
 import com.switchfully.digibooky.user.service.dto.admin.AdminDto;
@@ -11,8 +10,6 @@ import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTestIntegration {
 
@@ -53,8 +50,8 @@ class UserServiceTestIntegration {
         //THEN
         Assertions.assertThat(CREATE_MEMBER_DTO.getEmail()).isEqualTo(memberDto.getEmail());
         Assertions.assertThat(memberDto.getId()).isNotNull();
-        Assertions.assertThat(memberDto.getLastName()).isNotNull();
-        Assertions.assertThat(memberDto.getFirstName()).isNotNull();
+        Assertions.assertThat(memberDto.getLastname()).isNotNull();
+        Assertions.assertThat(memberDto.getFirstname()).isNotNull();
         Assertions.assertThat(memberDto.getAddress().getStreetName()).isNotNull();
         Assertions.assertThat(memberDto.getAddress().getStreetNumber()).isNotNull();
         Assertions.assertThat(memberDto.getAddress().getCity()).isNotNull();
@@ -71,8 +68,8 @@ class UserServiceTestIntegration {
         //THEN
         Assertions.assertThat(CREATE_ADMIN_DTO.getEmail()).isEqualTo(adminDto.getEmail());
         Assertions.assertThat(adminDto.getId()).isNotNull();
-        Assertions.assertThat(adminDto.getFirstName()).isNotNull();
-        Assertions.assertThat(adminDto.getLastName()).isNotNull();
+        Assertions.assertThat(adminDto.getFirstname()).isNotNull();
+        Assertions.assertThat(adminDto.getLastname()).isNotNull();
     }
 
     @Test
@@ -85,8 +82,8 @@ class UserServiceTestIntegration {
         //THEN
         Assertions.assertThat(CREATE_LIBRARIAN_DTO.getEmail()).isEqualTo(librarianDto.getEmail());
         Assertions.assertThat(librarianDto.getId()).isNotNull();
-        Assertions.assertThat(librarianDto.getFirstName()).isNotNull();
-        Assertions.assertThat(librarianDto.getLastName()).isNotNull();
+        Assertions.assertThat(librarianDto.getFirstname()).isNotNull();
+        Assertions.assertThat(librarianDto.getLastname()).isNotNull();
     }
 
 

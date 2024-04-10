@@ -30,7 +30,7 @@ class AuthorizationServiceTest {
     private static final User USER_ADMIN = new Admin("email", "lastname", "firstname", "pass");
     private static final User USER_LIBRARIAN = new Librarian("email", "lastname", "firstname", "password");
     private static final Author AUTHOR = new Author("firstname", "lastname");
-    private static final Book BOOK1 = new Book("isbn1", "title1", "summary", true, false, AUTHOR);
+    private static final Book BOOK1 = new Book("isbn1", "title1", "summary", AUTHOR);
     private static final Lending LENDING1 = new Lending(USER_MEMBER1, BOOK1);
     @Mock
     UserRepository userRepository;

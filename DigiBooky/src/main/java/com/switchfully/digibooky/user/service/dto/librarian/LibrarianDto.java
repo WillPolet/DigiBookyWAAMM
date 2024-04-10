@@ -3,26 +3,26 @@ package com.switchfully.digibooky.user.service.dto.librarian;
 public class LibrarianDto {
     private String id;
     private String email;
-    private String lastName;
-    private String firstName;
+    private String lastname;
+    private String firstname;
 
-    public LibrarianDto(String id, String email, String lastName, String firstName) {
+    public LibrarianDto(String id, String email, String lastname, String firstname) {
         this.id = id;
         this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
+        this.lastname = lastname;
+        this.firstname = firstname;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
     public String getId() {
         return id;

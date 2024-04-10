@@ -29,12 +29,12 @@ class BookServiceTest {
     private static final Author AUTHOR3 = new Author("firstname3", "lastname3");
     private static final CreateAuthorDto AUTHOR1_CREATE_DTO = new CreateAuthorDto("firstname1", "lastname1");
     private static final UpdateAuthorDto AUTHOR1_UPDATE_DTO = new UpdateAuthorDto("firstname1", "lastname1");
-    private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", true, false, AUTHOR1);
-    private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", true, false, AUTHOR2);
-    private static final Book BOOK3 = new Book("isbn3", "3title", "summary", true, false, AUTHOR3);
+    private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", AUTHOR1);
+    private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", AUTHOR2);
+    private static final Book BOOK3 = new Book("isbn3", "3title", "summary", AUTHOR3);
 
     private static final CreateBookDto BOOK1_CREATE_DTO = new CreateBookDto("isbn1", "title1","summary", AUTHOR1_CREATE_DTO);
-    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi", true, false,AUTHOR1_UPDATE_DTO);
+    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi" ,AUTHOR1_UPDATE_DTO);
     private static final String BOOK1_UPDATE_DTO_ID = "book1Id";
     private static final List<Book> BOOKS = List.of(BOOK1, BOOK2, BOOK3);
     private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor());
@@ -93,8 +93,8 @@ class BookServiceTest {
                 BOOK1_UPDATE_DTO.getIsbn(),
                 BOOK1_UPDATE_DTO.getTitle(),
                 BOOK1_UPDATE_DTO.getSummary(),
-                BOOK1_UPDATE_DTO.isAvailable(),
-                BOOK1_UPDATE_DTO.isLent(),
+                true,
+                false,
                 mockedAuthor);
 
         BookDto bookDtoToReturn = new BookDto(updatedBook.getId(),
@@ -106,6 +106,7 @@ class BookServiceTest {
                 mockedAuthor);
 
         Mockito.when(bookMapper.toDTO(updatedBook)).thenReturn(bookDtoToReturn);
+        Mockito.when(bookRepository.getBookById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1);
 
         BookDto actualBookDto = bookService.updateBook(BOOK1_UPDATE_DTO, BOOK1_UPDATE_DTO_ID);
 

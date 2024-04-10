@@ -13,8 +13,6 @@ public class CreateBookDto {
         @NotEmpty(message = "Title is required for creation.")
         private String title;
         private String summary;
-        private Boolean available;
-        private Boolean lent;
         @Valid
         private CreateAuthorDto author;
 
@@ -26,8 +24,6 @@ public class CreateBookDto {
             this.isbn = isbn;
             this.title = title;
             this.summary = summary;
-            this.available = true;
-            this.lent = false;
             this.author = author;
     }
 
@@ -42,14 +38,6 @@ public class CreateBookDto {
 
     public String getSummary() {
         return summary;
-    }
-
-    public Boolean isAvailable() {
-        return available;
-    }
-
-    public Boolean isLent() {
-        return lent;
     }
 
     public CreateAuthorDto getAuthor() {

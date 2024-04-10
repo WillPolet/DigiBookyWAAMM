@@ -17,9 +17,9 @@ class LendingRepositoryTest {
     private static final Member MEMBER1 = new Member("email1", "lastname1", "firstname1", "password", ADDRESS, "inss1");
     private static final Member MEMBER2 = new Member("email2", "lastname2", "firstname2", "password", ADDRESS, "inss2");
     private static final Author AUTHOR = new Author("firstname", "lastname");
-    private static final Book BOOK1 = new Book("isbn1", "title1", "summary", true, false, AUTHOR);
-    private static final Book BOOK2 = new Book("isbn2", "title2", "summary", true, false, AUTHOR);
-    private static final Book BOOK3 = new Book("isbn3", "title3", "summary", true, false, AUTHOR);
+    private static final Book BOOK1 = new Book("isbn1", "title1", "summary", AUTHOR);
+    private static final Book BOOK2 = new Book("isbn2", "title2", "summary", AUTHOR);
+    private static final Book BOOK3 = new Book("isbn3", "title3", "summary", AUTHOR);
     private static final Lending LENDING1 = new Lending(MEMBER1, BOOK1);
     private static final Lending LENDING2 = new Lending(MEMBER1, BOOK2);
     private static final Lending LENDING3 = new Lending(MEMBER2, BOOK3);

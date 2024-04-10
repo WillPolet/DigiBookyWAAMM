@@ -48,8 +48,8 @@ class LibrarianControllerTest {
         //THEN
         Assertions.assertThat(actualLibrarianDto.getEmail()).isEqualTo(CREATE_LIBRARIAN_DTO.getEmail());
         Assertions.assertThat(actualLibrarianDto.getId()).isNotNull();
-        Assertions.assertThat(actualLibrarianDto.getFirstName()).isNotNull();
-        Assertions.assertThat(actualLibrarianDto.getLastName()).isNotNull();
+        Assertions.assertThat(actualLibrarianDto.getFirstname()).isNotNull();
+        Assertions.assertThat(actualLibrarianDto.getLastname()).isNotNull();
     }
 
     @Test

@@ -10,16 +10,16 @@ public class CreateAdminDto {
     @Email(message = "Email invalid. Provide name@domain.com")
     private String email;
     @NotEmpty(message = "Impossible to create admin without last name.")
-    private String lastName;
+    private String lastname;
     @NotEmpty(message = "Impossible to create admin without first name.")
-    private String firstName;
+    private String firstname;
     @NotEmpty(message = "Impossible to create admin without password.")
     private String password;
 
-    public CreateAdminDto(String email, String lastName, String firstName, String password) {
+    public CreateAdminDto(String email, String lastname, String firstname, String password) {
         this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
+        this.lastname = lastname;
+        this.firstname = firstname;
         this.password = password;
     }
 
@@ -27,12 +27,12 @@ public class CreateAdminDto {
         return email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
     public String getPassword() {

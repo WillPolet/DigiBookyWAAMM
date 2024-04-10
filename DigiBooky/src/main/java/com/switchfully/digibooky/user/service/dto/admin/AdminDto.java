@@ -4,14 +4,14 @@ public class AdminDto {
 
     private String id;
     private String email;
-    private String lastName;
-    private String firstName;
+    private String lastname;
+    private String firstname;
 
-    public AdminDto(String id, String email, String lastName, String firstName) {
+    public AdminDto(String id, String email, String lastname, String firstname) {
         this.id = id;
         this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
+        this.lastname = lastname;
+        this.firstname = firstname;
     }
 
     public String getId() {
@@ -22,11 +22,11 @@ public class AdminDto {
         return email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 }

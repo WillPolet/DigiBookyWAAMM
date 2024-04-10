@@ -46,6 +46,9 @@ public class LendingService {
 
     public String returnBook(String lendingId) {
         Lending lending = lendingRepository.getLendingById(lendingId).orElseThrow(() -> new NotFoundException("There is no lending with this id"));
+        if (!lending.isActive()) {
+            throw new AccessForbiddenException("Cannot return a book already returned");
+        }
         lending.deactivate();
         return "You returned the book with isbn " + lending.getBook().getIsbn() + (lending.isOverdue() ? " late (returning date was " + lending.getReturningDate() + ")" : "");
     }

@@ -33,7 +33,7 @@ class BookControllerTest {
             "firstname",
             "pswd");
     private static final UpdateAuthorDto AUTHOR1_UPDATE_DTO = new UpdateAuthorDto("firstname1", "lastname1");
-    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi", true, false,AUTHOR1_UPDATE_DTO);
+    private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi",AUTHOR1_UPDATE_DTO);
 
     private static final String URI = "http://localhost";
     @LocalServerPort

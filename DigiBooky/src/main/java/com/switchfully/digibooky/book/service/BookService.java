@@ -55,11 +55,13 @@ public class BookService {
             throw new NotFoundException("The isbn provided and of book " + id + " doesn't match.");
         }
 
+        Book bookToUpdate = bookRepository.getBookById(id);
+
         Book book = new Book(id, updateBookDto.getIsbn(),
                 updateBookDto.getTitle(),
                 updateBookDto.getSummary(),
-                updateBookDto.isAvailable(),
-                updateBookDto.isLent(),
+                bookToUpdate.isAvailable(),
+                bookToUpdate.isLent(),
                 authorFromUpdateBook);
 
         bookRepository.updateBook(book, id);
@@ -90,7 +92,7 @@ public class BookService {
 
     public BookDto getBookById(String id) {
         if (!bookRepository.doesIdExist(id)) {
-            throw new IllegalArgumentException("Book with id " + id + " does not exist");
+            throw new NotFoundException("Book with id " + id + " does not exist");
         }
         return bookMapper.toDTO(bookRepository.getBookById(id));
     }

@@ -12,7 +12,6 @@ import com.switchfully.digibooky.user.service.dto.member.CreateMemberDto;
 import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,8 +62,8 @@ public class UserMapper {
     public Librarian toLibrarian(CreateLibrarianDto librarianToCreate) {
         return new Librarian(
                 librarianToCreate.getEmail(),
-                librarianToCreate.getLastName(),
-                librarianToCreate.getFirstName(),
+                librarianToCreate.getLastname(),
+                librarianToCreate.getFirstname(),
                 librarianToCreate.getPassword());
     }
 
@@ -83,8 +82,8 @@ public class UserMapper {
     public Admin toAdmin(CreateAdminDto createAdminDto) {
         return new Admin(
                 createAdminDto.getEmail(),
-                createAdminDto.getLastName(),
-                createAdminDto.getFirstName(),
+                createAdminDto.getLastname(),
+                createAdminDto.getFirstname(),
                 createAdminDto.getPassword());
     }
 }
