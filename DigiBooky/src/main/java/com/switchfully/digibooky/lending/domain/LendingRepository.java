@@ -18,7 +18,7 @@ public class LendingRepository {
     }
 
     public Optional<Lending> getLendingById(String id) {
-        return Optional.of(lendings.get(id));
+        return Optional.ofNullable(lendings.get(id));
     }
 
     public List<Lending> getLendingsByMember(Member member) {
