@@ -27,8 +27,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MemberControllerTest {
@@ -76,8 +74,8 @@ class MemberControllerTest {
 
         //THEN
         Assertions.assertThat(actualMemberDto.getEmail()).isEqualTo(CREATE_MEMBER_DTO.getEmail());
-        Assertions.assertThat(actualMemberDto.getFirstName()).isNotNull();
-        Assertions.assertThat(actualMemberDto.getLastName()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getFirstname()).isNotNull();
+        Assertions.assertThat(actualMemberDto.getLastname()).isNotNull();
         Assertions.assertThat(actualMemberDto.getId()).isNotNull();
         Assertions.assertThat(actualMemberDto.getAddress().getStreetName()).isNotNull();
         Assertions.assertThat(actualMemberDto.getAddress().getStreetNumber()).isNotNull();

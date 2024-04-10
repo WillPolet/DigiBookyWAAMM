@@ -94,8 +94,8 @@ class UserServiceTest {
                 "pwd");
         private static final Librarian LIBRARIAN = new Librarian(
                 CREATE_LIBRARIAN_DTO.getEmail(),
-                CREATE_LIBRARIAN_DTO.getLastName(),
-                CREATE_LIBRARIAN_DTO.getFirstName(),
+                CREATE_LIBRARIAN_DTO.getLastname(),
+                CREATE_LIBRARIAN_DTO.getFirstname(),
                 CREATE_LIBRARIAN_DTO.getPassword());
 
         private static final LibrarianDto LIBRARIAN_DTO = new LibrarianDto(
@@ -111,8 +111,8 @@ class UserServiceTest {
                 "pwd");
         private static final Admin ADMIN = new Admin(
                 CREATE_ADMIN_DTO.getEmail(),
-                CREATE_ADMIN_DTO.getLastName(),
-                CREATE_ADMIN_DTO.getFirstName(),
+                CREATE_ADMIN_DTO.getLastname(),
+                CREATE_ADMIN_DTO.getFirstname(),
                 CREATE_ADMIN_DTO.getPassword());
 
         private static final AdminDto ADMIN_DTO = new AdminDto(

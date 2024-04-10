@@ -9,16 +9,16 @@ public class CreateLibrarianDto {
     @Email(message = "Email invalid. Provide name@domain.com")
     private String email;
     @NotEmpty(message = "Impossible to create librarian without last name.")
-    private String lastName;
+    private String lastname;
     @NotEmpty(message = "Impossible to create librarian without first name.")
-    private String firstName;
+    private String firstname;
     @NotEmpty(message = "Impossible to create librarian without password.")
     private String password;
 
-    public CreateLibrarianDto(String email, String lastName, String firstName, String password) {
+    public CreateLibrarianDto(String email, String lastname, String firstname, String password) {
         this.email = email;
-        this.lastName = lastName;
-        this.firstName = firstName;
+        this.lastname = lastname;
+        this.firstname = firstname;
         this.password = password;
     }
 
@@ -26,12 +26,12 @@ public class CreateLibrarianDto {
         return email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
     public String getPassword() {

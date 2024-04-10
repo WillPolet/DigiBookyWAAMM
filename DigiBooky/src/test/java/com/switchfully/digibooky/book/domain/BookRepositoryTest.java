@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 class BookRepositoryTest {
 
     private static final Author AUTHOR1 = new Author("firstname", "lastname");
-    private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", true, false, AUTHOR1);
-    private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", true, false, AUTHOR1);
-    private static final Book BOOK3 = new Book("isbn3", "3title", "summary", true, false, AUTHOR1);
+    private static final Book BOOK1 = new Book("is1bn1", "title1", "summary", AUTHOR1);
+    private static final Book BOOK2 = new Book("isbn2", "title2super", "summary", AUTHOR1);
+    private static final Book BOOK3 = new Book("isbn3", "3title", "summary", AUTHOR1);
 
     private final BookRepository bookRepository = new BookRepository();
 

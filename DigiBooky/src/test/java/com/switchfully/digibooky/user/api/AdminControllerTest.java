@@ -48,8 +48,8 @@ class AdminControllerTest {
         //THEN
         Assertions.assertThat(actualAdminDto.getEmail()).isEqualTo(CREATE_ADMIN_DTO.getEmail());
         Assertions.assertThat(actualAdminDto.getId()).isNotNull();
-        Assertions.assertThat(actualAdminDto.getFirstName()).isNotNull();
-        Assertions.assertThat(actualAdminDto.getLastName()).isNotNull();
+        Assertions.assertThat(actualAdminDto.getFirstname()).isNotNull();
+        Assertions.assertThat(actualAdminDto.getLastname()).isNotNull();
     }
     @Test
     void createAdmin_whenGivenIncorrectMail_thenAdminNotCreated() {

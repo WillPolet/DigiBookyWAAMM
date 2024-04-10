@@ -30,6 +30,6 @@ public class BookMapper {
     }
 
     public Book fromDto(CreateBookDto bookDto, Author author) {
-        return new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getSummary(), bookDto.isAvailable(), bookDto.isLent(), author);
+        return new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getSummary(), author);
     }
 }

@@ -17,19 +17,13 @@ public class UpdateBookDto {
     private String title;
     @NotEmpty(message = "Summary is required for a book update.")
     private String summary;
-    @NotNull(message = "Availability is required for a book update.")
-    private Boolean available;
-    @NotNull(message = "Lent status is required for a book update.")
-    private Boolean lent;
     @Valid
     private UpdateAuthorDto author;
 
-    public UpdateBookDto(String isbn, String title, String summary, Boolean available, Boolean lent, UpdateAuthorDto author) {
+    public UpdateBookDto(String isbn, String title, String summary, UpdateAuthorDto author) {
         this.isbn = isbn;
         this.title = title;
         this.summary = summary;
-        this.available = available;
-        this.lent = lent;
         this.author = author;
     }
 
@@ -43,14 +37,6 @@ public class UpdateBookDto {
 
     public String getSummary() {
         return summary;
-    }
-
-    public Boolean isAvailable() {
-        return available;
-    }
-
-    public Boolean isLent() {
-        return lent;
     }
 
     public UpdateAuthorDto getAuthor() {

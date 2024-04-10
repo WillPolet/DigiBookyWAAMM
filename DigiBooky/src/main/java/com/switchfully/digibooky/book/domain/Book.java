@@ -14,8 +14,8 @@ public class Book {
     private Boolean lent;
     private Author author;
 
-    public Book(String isbn, String title, String summary, Boolean available, Boolean lent, Author author) {
-        this(UUID.randomUUID().toString(), isbn, title, summary, available, lent, author );
+    public Book(String isbn, String title, String summary, Author author) {
+        this(UUID.randomUUID().toString(), isbn, title, summary, true, false, author );
     }
 
     public Book(String id, String isbn, String title, String summary, Boolean available, Boolean lent, Author author) {
