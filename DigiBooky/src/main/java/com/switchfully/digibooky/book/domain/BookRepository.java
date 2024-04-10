@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.book.domain;
 
+import com.switchfully.digibooky.exception.NotFoundException;
 import com.switchfully.digibooky.exception.UniqueFieldAlreadyExistException;
 import org.springframework.stereotype.Repository;
 
@@ -36,6 +37,10 @@ public class BookRepository {
     }
 
     public void setBookToInaccessible(String id) {
+        Book book = books.get(id);
+        if (book == null) {
+            throw new NotFoundException("Book with this id doesn't exist");
+        }
         books.get(id).setAccessible(false);
     }
 
