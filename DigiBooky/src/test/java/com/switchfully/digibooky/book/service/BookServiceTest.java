@@ -11,6 +11,11 @@ import com.switchfully.digibooky.book.service.dto.BookDto;
 import com.switchfully.digibooky.book.service.dto.CreateBookDto;
 import com.switchfully.digibooky.book.service.dto.UpdateBookDto;
 import com.switchfully.digibooky.exception.NotFoundException;
+import com.switchfully.digibooky.lending.domain.Lending;
+import com.switchfully.digibooky.lending.domain.LendingRepository;
+import com.switchfully.digibooky.user.domain.Member;
+import com.switchfully.digibooky.user.domain.userAttribute.Address;
+import com.switchfully.digibooky.user.service.dto.member.MemberDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,9 +42,18 @@ class BookServiceTest {
     private static final UpdateBookDto BOOK1_UPDATE_DTO = new UpdateBookDto("is1bn1", "title1", "summaryhihi" ,AUTHOR1_UPDATE_DTO);
     private static final String BOOK1_UPDATE_DTO_ID = "book1Id";
     private static final List<Book> BOOKS = List.of(BOOK1, BOOK2, BOOK3);
-    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor());
-    private static final BookDto BOOK2_DTO = new BookDto(BOOK2.getId(), BOOK2.getIsbn(), BOOK2.getTitle(), BOOK2.getSummary(), BOOK2.isAvailable(), BOOK2.isLent(), BOOK2.getAuthor());
-    private static final BookDto BOOK3_DTO = new BookDto(BOOK3.getId(), BOOK3.getIsbn(), BOOK3.getTitle(), BOOK3.getSummary(), BOOK3.isAvailable(), BOOK3.isLent(), BOOK3.getAuthor());
+    private static final BookDto BOOK1_DTO = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor(), null);
+    private static final BookDto BOOK2_DTO = new BookDto(BOOK2.getId(), BOOK2.getIsbn(), BOOK2.getTitle(), BOOK2.getSummary(), BOOK2.isAvailable(), BOOK2.isLent(), BOOK2.getAuthor(), null);
+    private static final BookDto BOOK3_DTO = new BookDto(BOOK3.getId(), BOOK3.getIsbn(), BOOK3.getTitle(), BOOK3.getSummary(), BOOK3.isAvailable(), BOOK3.isLent(), BOOK3.getAuthor(), null);
+    private static final Address ADDRESS = new Address("rue Ferra", "3", "75013", "Paris");
+    private static final Member MEMBER = new Member("a.b@hotmail.fr",
+            "lastName",
+            "password",
+            ADDRESS,
+            "33A");
+    private static final MemberDto MEMBER_DTO = new MemberDto(MEMBER.getId(), MEMBER.getEmail(), MEMBER.getLastname(), MEMBER.getFirstname(), MEMBER.getAddress());
+    private static final Lending LENDING = new Lending(MEMBER, BOOK1);
+    private static final BookDto BOOK1_DTO_WITH_MEMBER = new BookDto(BOOK1.getId(), BOOK1.getIsbn(), BOOK1.getTitle(), BOOK1.getSummary(), BOOK1.isAvailable(), BOOK1.isLent(), BOOK1.getAuthor(), MEMBER_DTO);
 
     @Mock
     BookMapper bookMapper;
@@ -49,6 +63,8 @@ class BookServiceTest {
     AuthorRepository authorRepository;
     @Mock
     AuthorMapper authorMapper;
+    @Mock
+    LendingRepository lendingRepository;
     @InjectMocks
     BookService bookService;
 
@@ -94,7 +110,7 @@ class BookServiceTest {
                 BOOK1_UPDATE_DTO.getTitle(),
                 BOOK1_UPDATE_DTO.getSummary(),
                 true,
-                false,
+                true,
                 mockedAuthor);
 
         BookDto bookDtoToReturn = new BookDto(updatedBook.getId(),
@@ -103,10 +119,11 @@ class BookServiceTest {
                 updatedBook.getSummary(),
                 updatedBook.isAvailable(),
                 updatedBook.isLent(),
-                mockedAuthor);
+                mockedAuthor,
+                null);
 
-        Mockito.when(bookMapper.toDTO(updatedBook)).thenReturn(bookDtoToReturn);
         Mockito.when(bookRepository.getBookById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1);
+        Mockito.when(bookMapper.toDTO(updatedBook)).thenReturn(bookDtoToReturn);
 
         BookDto actualBookDto = bookService.updateBook(BOOK1_UPDATE_DTO, BOOK1_UPDATE_DTO_ID);
 
@@ -122,9 +139,20 @@ class BookServiceTest {
     }
 
     @Test
-    void givenId_whenIdExist_thenReturnBookDto(){
+    void givenBookId_whenLendingExist_thenReturnBookDtoWithMember(){
         Mockito.when(bookRepository.doesIdExist(BOOK1_UPDATE_DTO_ID)).thenReturn(true);
         Mockito.when(bookRepository.getBookById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1);
+        Mockito.when(lendingRepository.getLendingByBookId(BOOK1_UPDATE_DTO_ID)).thenReturn(Optional.of(LENDING));
+        Mockito.when(bookMapper.toDTO(BOOK1, MEMBER)).thenReturn(BOOK1_DTO_WITH_MEMBER);
+        BookDto actualBookReturned = bookService.getBookById(BOOK1_UPDATE_DTO_ID);
+        Assertions.assertThat(actualBookReturned.getId()).isEqualTo(BOOK1.getId());
+    }
+
+    @Test
+    void givenBookId_whenLendingNotExist_thenReturnBookDto(){
+        Mockito.when(bookRepository.doesIdExist(BOOK1_UPDATE_DTO_ID)).thenReturn(true);
+        Mockito.when(bookRepository.getBookById(BOOK1_UPDATE_DTO_ID)).thenReturn(BOOK1);
+        Mockito.when(lendingRepository.getLendingByBookId(BOOK1_UPDATE_DTO_ID)).thenReturn(Optional.ofNullable(null));
         Mockito.when(bookMapper.toDTO(BOOK1)).thenReturn(BOOK1_DTO);
         BookDto actualBookReturned = bookService.getBookById(BOOK1_UPDATE_DTO_ID);
         Assertions.assertThat(actualBookReturned.getId()).isEqualTo(BOOK1.getId());
